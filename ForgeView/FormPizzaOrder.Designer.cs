@@ -61,17 +61,17 @@
             // comboBoxCustomer
             // 
             this.comboBoxCustomer.FormattingEnabled = true;
-            this.comboBoxCustomer.Location = new System.Drawing.Point(108, 4);
+            this.comboBoxCustomer.Location = new System.Drawing.Point(121, 12);
             this.comboBoxCustomer.Name = "comboBoxCustomer";
-            this.comboBoxCustomer.Size = new System.Drawing.Size(140, 24);
+            this.comboBoxCustomer.Size = new System.Drawing.Size(197, 24);
             this.comboBoxCustomer.TabIndex = 2;
             // 
             // comboBoxPizza
             // 
             this.comboBoxPizza.FormattingEnabled = true;
-            this.comboBoxPizza.Location = new System.Drawing.Point(108, 34);
+            this.comboBoxPizza.Location = new System.Drawing.Point(121, 41);
             this.comboBoxPizza.Name = "comboBoxPizza";
-            this.comboBoxPizza.Size = new System.Drawing.Size(140, 24);
+            this.comboBoxPizza.Size = new System.Drawing.Size(197, 24);
             this.comboBoxPizza.TabIndex = 3;
             this.comboBoxPizza.SelectedIndexChanged += new System.EventHandler(this.comboBoxPizza_SelectedIndexChanged);
             // 
@@ -96,17 +96,17 @@
             // textBoxTotal
             // 
             this.textBoxTotal.Enabled = false;
-            this.textBoxTotal.Location = new System.Drawing.Point(108, 100);
+            this.textBoxTotal.Location = new System.Drawing.Point(121, 100);
             this.textBoxTotal.Name = "textBoxTotal";
             this.textBoxTotal.ReadOnly = true;
-            this.textBoxTotal.Size = new System.Drawing.Size(140, 22);
+            this.textBoxTotal.Size = new System.Drawing.Size(197, 22);
             this.textBoxTotal.TabIndex = 8;
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(12, 179);
+            this.buttonSave.Location = new System.Drawing.Point(121, 139);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.Size = new System.Drawing.Size(87, 33);
             this.buttonSave.TabIndex = 9;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -114,9 +114,9 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(108, 179);
+            this.buttonCancel.Location = new System.Drawing.Point(240, 139);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.Size = new System.Drawing.Size(78, 33);
             this.buttonCancel.TabIndex = 10;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -124,9 +124,9 @@
             // 
             // textBoxCount
             // 
-            this.textBoxCount.Location = new System.Drawing.Point(108, 69);
+            this.textBoxCount.Location = new System.Drawing.Point(121, 72);
             this.textBoxCount.Name = "textBoxCount";
-            this.textBoxCount.Size = new System.Drawing.Size(140, 22);
+            this.textBoxCount.Size = new System.Drawing.Size(197, 22);
             this.textBoxCount.TabIndex = 11;
             this.textBoxCount.TextChanged += new System.EventHandler(this.textBoxCount_TextChanged);
             // 
@@ -134,7 +134,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 214);
+            this.ClientSize = new System.Drawing.Size(330, 187);
             this.Controls.Add(this.textBoxCount);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
@@ -145,8 +145,9 @@
             this.Controls.Add(this.comboBoxCustomer);
             this.Controls.Add(this.labelPizza);
             this.Controls.Add(this.labelCustomer);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormPizzaOrder";
-            this.Text = "FormPizzaOrder";
+            this.Text = "Заказ";
             this.Load += new System.EventHandler(this.FormPizzaOrder_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

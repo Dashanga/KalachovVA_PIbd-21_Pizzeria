@@ -80,7 +80,7 @@ namespace ForgeView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormPizzaIngredient>();
+            var form = Container.Resolve<FormAddIngredient>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 if (form.Model != null)
@@ -99,7 +99,7 @@ namespace ForgeView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormPizzaIngredient>();
+                var form = Container.Resolve<FormAddIngredient>();
                 form.Model =
                productComponents[dataGridView.SelectedRows[0].Cells[0].RowIndex];
                 if (form.ShowDialog() == DialogResult.OK)

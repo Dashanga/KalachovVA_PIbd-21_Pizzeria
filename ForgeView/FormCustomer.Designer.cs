@@ -38,7 +38,7 @@
             // 
             this.maskedTextBoxInitials.Location = new System.Drawing.Point(59, 25);
             this.maskedTextBoxInitials.Name = "maskedTextBoxInitials";
-            this.maskedTextBoxInitials.Size = new System.Drawing.Size(228, 22);
+            this.maskedTextBoxInitials.Size = new System.Drawing.Size(279, 22);
             this.maskedTextBoxInitials.TabIndex = 0;
             // 
             // labelInitials
@@ -52,9 +52,9 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(59, 69);
+            this.buttonSave.Location = new System.Drawing.Point(59, 61);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(90, 23);
+            this.buttonSave.Size = new System.Drawing.Size(108, 33);
             this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -62,9 +62,9 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(212, 69);
+            this.buttonCancel.Location = new System.Drawing.Point(245, 61);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.Size = new System.Drawing.Size(93, 33);
             this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -74,13 +74,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(298, 114);
+            this.ClientSize = new System.Drawing.Size(350, 106);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.labelInitials);
             this.Controls.Add(this.maskedTextBoxInitials);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormCustomer";
-            this.Text = "FormCustomer";
+            this.Text = "Добавить покупателя";
             this.Load += new System.EventHandler(this.FormCustomer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -1,7 +1,5 @@
 ﻿using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.BindingModel;
-using ForgeServiceDAL.Interfaces;
-using ForgeServiceDAL.ViewModel;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -13,7 +11,10 @@ namespace ForgeView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        public int Id { set { id = value; } }
+        public int Id
+        {
+            set { id = value; }
+        }
 
         private readonly IComponentService service;
 
@@ -28,21 +29,19 @@ namespace ForgeView
 
         private void FormCreateIngredient_Load(object sender, EventArgs e)
         {
-            if (id.HasValue)
+            if (!id.HasValue) return;
+            try
             {
-                try
+                var view = service.GetElement(id.Value);
+                if (view != null)
                 {
-                    var view = service.GetElement(id.Value);
-                    if (view != null)
-                    {
-                        labelName.Text = view.ComponentName;
-                    }
+                    labelName.Text = view.ComponentName;
                 }
-                catch (Exception ex)
-                {
-                   MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                                   MessageBoxIcon.Error);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -51,9 +50,10 @@ namespace ForgeView
             if (string.IsNullOrEmpty(textBoxName.Text))
             {
                 MessageBox.Show("Введите название", "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
+                    MessageBoxIcon.Error);
                 return;
             }
+
             try
             {
                 if (id.HasValue)
@@ -71,15 +71,16 @@ namespace ForgeView
                         ComponentName = textBoxName.Text
                     });
                 }
+
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                    MessageBoxIcon.Error);
             }
         }
 

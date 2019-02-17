@@ -66,14 +66,14 @@
             // 
             this.maskedTextBoxPizzaName.Location = new System.Drawing.Point(91, 9);
             this.maskedTextBoxPizzaName.Name = "maskedTextBoxPizzaName";
-            this.maskedTextBoxPizzaName.Size = new System.Drawing.Size(100, 22);
+            this.maskedTextBoxPizzaName.Size = new System.Drawing.Size(180, 22);
             this.maskedTextBoxPizzaName.TabIndex = 2;
             // 
             // maskedTextBoxCost
             // 
             this.maskedTextBoxCost.Location = new System.Drawing.Point(91, 50);
             this.maskedTextBoxCost.Name = "maskedTextBoxCost";
-            this.maskedTextBoxCost.Size = new System.Drawing.Size(100, 22);
+            this.maskedTextBoxCost.Size = new System.Drawing.Size(180, 22);
             this.maskedTextBoxCost.TabIndex = 3;
             // 
             // groupBoxData
@@ -85,16 +85,16 @@
             this.groupBoxData.Controls.Add(this.dataGridView);
             this.groupBoxData.Location = new System.Drawing.Point(15, 78);
             this.groupBoxData.Name = "groupBoxData";
-            this.groupBoxData.Size = new System.Drawing.Size(714, 315);
+            this.groupBoxData.Size = new System.Drawing.Size(612, 315);
             this.groupBoxData.TabIndex = 4;
             this.groupBoxData.TabStop = false;
             this.groupBoxData.Text = "Ингредиенты";
             // 
             // buttonUpdate
             // 
-            this.buttonUpdate.Location = new System.Drawing.Point(567, 61);
+            this.buttonUpdate.Location = new System.Drawing.Point(492, 89);
             this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(75, 23);
+            this.buttonUpdate.Size = new System.Drawing.Size(92, 42);
             this.buttonUpdate.TabIndex = 4;
             this.buttonUpdate.Text = "Изменить";
             this.buttonUpdate.UseVisualStyleBackColor = true;
@@ -102,19 +102,19 @@
             // 
             // buttonDel
             // 
-            this.buttonDel.Location = new System.Drawing.Point(567, 107);
+            this.buttonDel.Location = new System.Drawing.Point(492, 158);
             this.buttonDel.Name = "buttonDel";
-            this.buttonDel.Size = new System.Drawing.Size(75, 23);
+            this.buttonDel.Size = new System.Drawing.Size(92, 41);
             this.buttonDel.TabIndex = 3;
-            this.buttonDel.Text = "Удалит";
+            this.buttonDel.Text = "Удалить";
             this.buttonDel.UseVisualStyleBackColor = true;
             this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
             // 
             // buttonRef
             // 
-            this.buttonRef.Location = new System.Drawing.Point(567, 153);
+            this.buttonRef.Location = new System.Drawing.Point(492, 230);
             this.buttonRef.Name = "buttonRef";
-            this.buttonRef.Size = new System.Drawing.Size(75, 23);
+            this.buttonRef.Size = new System.Drawing.Size(92, 43);
             this.buttonRef.TabIndex = 2;
             this.buttonRef.Text = "Обновить";
             this.buttonRef.UseVisualStyleBackColor = true;
@@ -122,9 +122,9 @@
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(567, 21);
+            this.buttonAdd.Location = new System.Drawing.Point(492, 21);
             this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(75, 23);
+            this.buttonAdd.Size = new System.Drawing.Size(92, 45);
             this.buttonAdd.TabIndex = 1;
             this.buttonAdd.Text = "Добавить";
             this.buttonAdd.UseVisualStyleBackColor = true;
@@ -136,14 +136,14 @@
             this.dataGridView.Location = new System.Drawing.Point(6, 21);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowTemplate.Height = 24;
-            this.dataGridView.Size = new System.Drawing.Size(434, 288);
+            this.dataGridView.Size = new System.Drawing.Size(445, 288);
             this.dataGridView.TabIndex = 0;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(654, 415);
+            this.buttonCancel.Location = new System.Drawing.Point(507, 399);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.Size = new System.Drawing.Size(90, 39);
             this.buttonCancel.TabIndex = 5;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -151,9 +151,9 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(491, 415);
+            this.buttonSave.Location = new System.Drawing.Point(372, 399);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.Size = new System.Drawing.Size(94, 39);
             this.buttonSave.TabIndex = 6;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -163,7 +163,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(643, 450);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.groupBoxData);
@@ -171,8 +171,9 @@
             this.Controls.Add(this.maskedTextBoxPizzaName);
             this.Controls.Add(this.labelCost);
             this.Controls.Add(this.labelPizzaName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormPizza";
-            this.Text = "FormPizza";
+            this.Text = "Добавление пиццы";
             this.Load += new System.EventHandler(this.FormPizza_Load);
             this.groupBoxData.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();

@@ -3,12 +3,6 @@ using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
@@ -20,7 +14,8 @@ namespace ForgeView
 
         public new IUnityContainer Container { get; set; }
 
-        private readonly IMainService service;
+        private readonly IMainService service;
+
         public FormMain(IMainService service)
         {
             InitializeComponent();
@@ -53,17 +48,20 @@ namespace ForgeView
         private void customerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormCustomers>();
-            form.ShowDialog();        }
+            form.ShowDialog();
+        }
 
         private void ingredientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormIngredients>();
-            form.ShowDialog();        }
+            form.ShowDialog();
+        }
 
         private void pizzasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormPizza>();
-            form.ShowDialog();        }
+            form.ShowDialog();
+        }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -87,7 +85,8 @@ namespace ForgeView
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
                    MessageBoxIcon.Error);
                 }
-            }        }
+            }
+        }
 
         private void buttonReady_Click(object sender, EventArgs e)
         {
@@ -104,7 +103,8 @@ namespace ForgeView
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
                    MessageBoxIcon.Error);
                 }
-            }
+            }
+
         }
 
         private void buttonPaid_Click(object sender, EventArgs e)

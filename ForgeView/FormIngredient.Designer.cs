@@ -1,6 +1,6 @@
 ﻿namespace ForgeView
 {
-    partial class FormIngredient
+    partial class FormCreateIngredient
     {
         /// <summary>
         /// Required designer variable.
@@ -47,14 +47,14 @@
             // 
             this.textBoxName.Location = new System.Drawing.Point(95, 13);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(204, 22);
+            this.textBoxName.Size = new System.Drawing.Size(219, 22);
             this.textBoxName.TabIndex = 1;
             // 
             // buttonSave
             // 
             this.buttonSave.Location = new System.Drawing.Point(95, 54);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(88, 23);
+            this.buttonSave.Size = new System.Drawing.Size(93, 29);
             this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -62,25 +62,26 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(224, 54);
+            this.buttonCancel.Location = new System.Drawing.Point(223, 54);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.Size = new System.Drawing.Size(91, 29);
             this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // FormIngredient
+            // FormCreateIngredient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(315, 95);
+            this.ClientSize = new System.Drawing.Size(326, 95);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.labelName);
-            this.Name = "FormIngredient";
-            this.Text = "FormIngredient";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Name = "FormCreateIngredient";
+            this.Text = "Создание ингредиента";
             this.Load += new System.EventHandler(this.FormCreateIngredient_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

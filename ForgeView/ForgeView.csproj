@@ -61,11 +61,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormCreateIngredient.cs">
+    <Compile Include="FormIngredient.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormCreateIngredient.Designer.cs">
-      <DependentUpon>FormCreateIngredient.cs</DependentUpon>
+    <Compile Include="FormIngredient.Designer.cs">
+      <DependentUpon>FormIngredient.cs</DependentUpon>
     </Compile>
     <Compile Include="FormCustomer.cs">
       <SubType>Form</SubType>
@@ -97,11 +97,11 @@
     <Compile Include="FormPizza.Designer.cs">
       <DependentUpon>FormPizza.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPizzaIngredient.cs">
+    <Compile Include="FormAddIngredient.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPizzaIngredient.Designer.cs">
-      <DependentUpon>FormPizzaIngredient.cs</DependentUpon>
+    <Compile Include="FormAddIngredient.Designer.cs">
+      <DependentUpon>FormAddIngredient.cs</DependentUpon>
     </Compile>
     <Compile Include="FormPizzaOrder.cs">
       <SubType>Form</SubType>
@@ -111,8 +111,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormCreateIngredient.resx">
-      <DependentUpon>FormCreateIngredient.cs</DependentUpon>
+    <EmbeddedResource Include="FormIngredient.resx">
+      <DependentUpon>FormIngredient.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormIngredients.resx">
       <DependentUpon>FormIngredients.cs</DependentUpon>
@@ -129,8 +129,8 @@
     <EmbeddedResource Include="FormPizza.resx">
       <DependentUpon>FormPizza.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPizzaIngredient.resx">
-      <DependentUpon>FormPizzaIngredient.cs</DependentUpon>
+    <EmbeddedResource Include="FormAddIngredient.resx">
+      <DependentUpon>FormAddIngredient.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPizzaOrder.resx">
       <DependentUpon>FormPizzaOrder.cs</DependentUpon>

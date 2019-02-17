@@ -1,6 +1,6 @@
 ﻿namespace ForgeView
 {
-    partial class FormPizzaIngredient
+    partial class FormAddIngredient
     {
         /// <summary>
         /// Required designer variable.
@@ -71,9 +71,9 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(119, 96);
+            this.buttonSave.Location = new System.Drawing.Point(119, 87);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.Size = new System.Drawing.Size(104, 32);
             this.buttonSave.TabIndex = 4;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -81,27 +81,28 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(225, 96);
+            this.buttonCancel.Location = new System.Drawing.Point(278, 87);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.Size = new System.Drawing.Size(95, 32);
             this.buttonCancel.TabIndex = 5;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // FormPizzaIngredient
+            // FormAddIngredient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(452, 177);
+            this.ClientSize = new System.Drawing.Size(385, 131);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.maskedTextBoxCount);
             this.Controls.Add(this.labelCount);
             this.Controls.Add(this.Ингредиент);
             this.Controls.Add(this.comboBoxProductComponents);
-            this.Name = "FormPizzaIngredient";
-            this.Text = "FormProductComponent";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Name = "FormAddIngredient";
+            this.Text = "Добавление ингредиента";
             this.Load += new System.EventHandler(this.FormPizzaIngredient_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
