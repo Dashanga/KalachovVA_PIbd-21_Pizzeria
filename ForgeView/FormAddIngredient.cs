@@ -2,12 +2,6 @@
 using ForgeServiceDAL.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
@@ -17,15 +11,15 @@ namespace ForgeView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-        public ProductComponentViewModel Model
+        public PizzaIngredientViewModel Model
         {
             set { model = value; }
             get { return model; }
         }
-        private readonly IComponentService service;
-        private ProductComponentViewModel model;
+        private readonly IIngredientService service;
+        private PizzaIngredientViewModel model;
 
-        public FormAddIngredient(IComponentService service)
+        public FormAddIngredient(IIngredientService service)
         {
             InitializeComponent();
             this.service = service;
@@ -35,11 +29,11 @@ namespace ForgeView
         {
             try
             {
-                List<ComponentViewModel> list = service.GetList();
+                List<IngredientViewModel> list = service.GetList();
                 if (list != null)
                 {
-                    comboBoxProductComponents.DisplayMember = "ComponentName";
-                    comboBoxProductComponents.ValueMember = "Id";
+                    comboBoxProductComponents.DisplayMember = "IngredientName";
+                    comboBoxProductComponents.ValueMember = "IngredientId";
                     comboBoxProductComponents.DataSource = list;
                     comboBoxProductComponents.SelectedItem = null;
                 }
@@ -52,8 +46,8 @@ namespace ForgeView
             if (model != null)
             {
                 comboBoxProductComponents.Enabled = false;
-                comboBoxProductComponents.SelectedValue = model.ComponentId;
-                maskedTextBoxCount.Text = model.Count.ToString();
+                comboBoxProductComponents.SelectedValue = model.IngredientId;
+                maskedTextBoxCount.Text = model.PizzaIngredientCount.ToString();
             }
         }
 
@@ -74,17 +68,17 @@ namespace ForgeView
             try
             {
                 if (model == null)
-            {
-                    model = new ProductComponentViewModel
+                {
+                    model = new PizzaIngredientViewModel
                     {
-                        ComponentId = Convert.ToInt32(comboBoxProductComponents.SelectedValue),
-                        ComponentName = comboBoxProductComponents.Text,
-                        Count = Convert.ToInt32(maskedTextBoxCount.Text)
+                        IngredientId = Convert.ToInt32(comboBoxProductComponents.SelectedValue),
+                        IngredientName = comboBoxProductComponents.Text,
+                        PizzaIngredientCount = Convert.ToInt32(maskedTextBoxCount.Text)
                     };
                 }
                 else
                 {
-                    model.Count = Convert.ToInt32(maskedTextBoxCount.Text);
+                    model.PizzaIngredientCount = Convert.ToInt32(maskedTextBoxCount.Text);
                 }
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
                MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -93,7 +87,7 @@ namespace ForgeView
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
                MessageBoxIcon.Error);
             }
 

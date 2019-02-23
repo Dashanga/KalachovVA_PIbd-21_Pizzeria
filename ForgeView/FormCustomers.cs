@@ -19,9 +19,9 @@ namespace ForgeView
 
         public new IUnityContainer Container { get; set; }
 
-        private readonly IClientService service;
+        private readonly ICustomerService service;
 
-        public FormCustomers(IClientService service)
+        public FormCustomers(ICustomerService service)
         {
             InitializeComponent();
             this.service = service;
@@ -36,7 +36,7 @@ namespace ForgeView
         {
             try
             {
-                List<ClientViewModel> list = service.GetList();
+                List<CustomerViewModel> list = service.GetList();
                 if (list != null)
                 {
                     dataGridViewCustomers.DataSource = list;

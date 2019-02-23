@@ -19,9 +19,9 @@ namespace ForgeView
 
         public new IUnityContainer Container { get; set; }
 
-        private readonly IComponentService service;
+        private readonly IIngredientService service;
 
-        public FormIngredients(IComponentService service)
+        public FormIngredients(IIngredientService service)
         {
             InitializeComponent();
             this.service = service;
@@ -36,7 +36,7 @@ namespace ForgeView
         {
             try
             {
-                List<ComponentViewModel> list = service.GetList();
+                List<IngredientViewModel> list = service.GetList();
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -47,13 +47,13 @@ namespace ForgeView
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
+                                MessageBoxIcon.Error);
             }
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormCreateIngredient>();
+            var form = Container.Resolve<FormIngredient>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -64,7 +64,7 @@ namespace ForgeView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormCustomer>();
+                var form = Container.Resolve<FormIngredient>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {

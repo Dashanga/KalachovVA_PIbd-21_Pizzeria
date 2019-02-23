@@ -18,16 +18,18 @@ namespace ForgeView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-        private readonly IClientService serviceC;
-        private readonly IProductService serviceP;
-        private readonly IMainService serviceM;
+        private readonly ICustomerService serviceC;
+        private readonly IPizzaService serviceP;
+        private readonly IPizzaOrderService serviceM;
 
-        public FormPizzaOrder(IClientService serviceC, IProductService serviceP, IMainService serviceM)
+
+        public FormPizzaOrder(ICustomerService serviceC, IPizzaService serviceP, IPizzaOrderService serviceM)
         {
             InitializeComponent();
             this.serviceC = serviceC;
             this.serviceP = serviceP;
-            this.serviceM = serviceM;
+            this.serviceM = serviceM;
+
         }
 
         private void CalcSum()
@@ -38,9 +40,9 @@ namespace ForgeView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxPizza.SelectedValue);
-                    ProductViewModel product = serviceP.GetElement(id);
+                    PizzaViewModel pizza = serviceP.GetElement(id);
                     int count = Convert.ToInt32(textBoxCount.Text);
-                    textBoxTotal.Text = (count * product.Price).ToString();
+                    textBoxTotal.Text = (count * pizza.Cost).ToString();
                 }
                 catch (Exception ex)
                 {
@@ -54,19 +56,19 @@ namespace ForgeView
         {
             try
             {
-                List<ClientViewModel> listC = serviceC.GetList();
+                List<CustomerViewModel> listC = serviceC.GetList();
                 if (listC != null)
                 {
-                    comboBoxCustomer.DisplayMember = "ClientFIO";
-                    comboBoxCustomer.ValueMember = "Id";
+                    comboBoxCustomer.DisplayMember = "FullName";
+                    comboBoxCustomer.ValueMember = "CustomerId";
                     comboBoxCustomer.DataSource = listC;
                     comboBoxCustomer.SelectedItem = null;
                 }
-                List<ProductViewModel> listP = serviceP.GetList();
+                List<PizzaViewModel> listP = serviceP.GetList();
                 if (listP != null)
                 {
-                    comboBoxPizza.DisplayMember = "ProductName";
-                    comboBoxPizza.ValueMember = "Id";
+                    comboBoxPizza.DisplayMember = "PizzaName";
+                    comboBoxPizza.ValueMember = "PizzaId";
                     comboBoxPizza.DataSource = listP;
                     comboBoxPizza.SelectedItem = null;
                 }
@@ -110,12 +112,12 @@ namespace ForgeView
             }
             try
             {
-                serviceM.CreateOrder(new OrderBindingModel
+                serviceM.CreateOrder(new PizzaOrderBindingModel
                 {
-                    ClientId = Convert.ToInt32(comboBoxCustomer.SelectedValue),
-                    ProductId = Convert.ToInt32(comboBoxPizza.SelectedValue),
-                    Count = Convert.ToInt32(textBoxCount.Text),
-                    Sum = Convert.ToInt32(textBoxTotal.Text)
+                    CustomerId = Convert.ToInt32(comboBoxCustomer.SelectedValue),
+                    PizzaId = Convert.ToInt32(comboBoxPizza.SelectedValue),
+                    PizzaCount = Convert.ToInt32(textBoxCount.Text),
+                    TotalCost = Convert.ToInt32(textBoxTotal.Text)
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
                MessageBoxButtons.OK, MessageBoxIcon.Information);

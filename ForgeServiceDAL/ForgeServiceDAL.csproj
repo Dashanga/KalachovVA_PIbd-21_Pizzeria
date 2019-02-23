@@ -41,23 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindingModel\ClientBindingModel.cs" />
-    <Compile Include="BindingModel\ComponentBindingModel.cs" />
-    <Compile Include="BindingModel\OrderBindingModel.cs" />
-    <Compile Include="BindingModel\OrderStatusBindingModel.cs" />
-    <Compile Include="BindingModel\ProductBindingModel.cs" />
-    <Compile Include="BindingModel\ProductComponentBindingModel.cs" />
-    <Compile Include="Interfaces\IComponentService.cs" />
-    <Compile Include="Interfaces\IProductService.cs" />
-    <Compile Include="Interfaces\IClientService.cs" />
-    <Compile Include="Interfaces\IMainService.cs" />
+    <Compile Include="BindingModel\CutstomerBindingModel.cs" />
+    <Compile Include="BindingModel\IngredientBindingModel.cs" />
+    <Compile Include="BindingModel\PizzaOrderBindingModel.cs" />
+    <Compile Include="BindingModel\PizzaBindingModel.cs" />
+    <Compile Include="BindingModel\PizzaIngredientBindingModel.cs" />
+    <Compile Include="Interfaces\IIngredientService.cs" />
+    <Compile Include="Interfaces\IPizzaService.cs" />
+    <Compile Include="Interfaces\ICustomerService.cs" />
+    <Compile Include="Interfaces\IPizzaOrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\ClientViewModel.cs" />
-    <Compile Include="ViewModel\ComponentViewModel.cs" />
-    <Compile Include="ViewModel\OrderViewModel.cs" />
-    <Compile Include="ViewModel\OrderStatusViewModel.cs" />
-    <Compile Include="ViewModel\ProductViewModel.cs" />
-    <Compile Include="ViewModel\ProductComponentViewModel.cs" />
+    <Compile Include="ViewModel\CustomerViewModel.cs" />
+    <Compile Include="ViewModel\IngredientViewModel.cs" />
+    <Compile Include="ViewModel\PizzaOrderViewModel.cs" />
+    <Compile Include="ViewModel\PizzaViewModel.cs" />
+    <Compile Include="ViewModel\PizzaIngredientViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ForgeModel\ForgeModel.csproj">

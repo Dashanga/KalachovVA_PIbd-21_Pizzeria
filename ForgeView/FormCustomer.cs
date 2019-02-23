@@ -14,11 +14,11 @@ namespace ForgeView
 
         public int Id { set { id = value; } }
 
-        private readonly IClientService service;
+        private readonly ICustomerService service;
 
         private int? id;
 
-        public FormCustomer(IClientService service)
+        public FormCustomer(ICustomerService service)
         {
             InitializeComponent();
             this.service = service;
@@ -30,10 +30,10 @@ namespace ForgeView
             {
                 try
                 {
-                    ClientViewModel view = service.GetElement(id.Value);
+                    CustomerViewModel view = service.GetElement(id.Value);
                     if (view != null)
                     {
-                        maskedTextBoxInitials.Text = view.ClientFIO;
+                        maskedTextBoxInitials.Text = view.FullName;
                     }
                 }
                 catch (Exception ex)
@@ -56,17 +56,17 @@ namespace ForgeView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new ClientBindingModel
+                    service.UpdElement(new CutstomerBindingModel
                     {
-                        Id = id.Value,
-                        ClientFIO = maskedTextBoxInitials.Text
+                        CustomerId = id.Value,
+                        FullName = maskedTextBoxInitials.Text
                     });
                 }
                 else
                 {
-                    service.AddElement(new ClientBindingModel
+                    service.AddElement(new CutstomerBindingModel
                     {
-                        ClientFIO = maskedTextBoxInitials.Text
+                        FullName = maskedTextBoxInitials.Text
                     });
                 }
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",

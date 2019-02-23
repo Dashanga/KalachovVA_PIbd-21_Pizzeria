@@ -19,11 +19,11 @@ namespace ForgeView
         [Dependency]
         public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
-        private readonly IProductService service;
+        private readonly IPizzaService service;
         private int? id;
-        private List<ProductComponentViewModel> productComponents;
+        private List<PizzaIngredientViewModel> productComponents;
 
-        public FormPizza(IProductService service)
+        public FormPizza(IPizzaService service)
         {
             InitializeComponent();
             this.service = service;
@@ -35,12 +35,12 @@ namespace ForgeView
             {
                 try
                 {
-                    ProductViewModel view = service.GetElement(id.Value);
+                    PizzaViewModel view = service.GetElement(id.Value);
                     if (view != null)
                     {
-                        maskedTextBoxPizzaName.Text = view.ProductName;
-                        maskedTextBoxCost.Text = view.Price.ToString();
-                        productComponents = view.ProductComponents;
+                        maskedTextBoxPizzaName.Text = view.PizzaName;
+                        maskedTextBoxCost.Text = view.Cost.ToString();
+                        productComponents = view.PizzaIngredients;
                         LoadData();
                     }
                 }
@@ -52,7 +52,7 @@ namespace ForgeView
             }
             else
             {
-                productComponents = new List<ProductComponentViewModel>();
+                productComponents = new List<PizzaIngredientViewModel>();
             }
         }
 
@@ -87,7 +87,7 @@ namespace ForgeView
                 {
                     if (id.HasValue)
                     {
-                        form.Model.ProductId = id.Value;
+                        form.Model.PizzaId = id.Value;
                     }
                     productComponents.Add(form.Model);
                 }
@@ -158,34 +158,34 @@ namespace ForgeView
             }
             try
             {
-                List<ProductComponentBindingModel> productComponentBM = new
-               List<ProductComponentBindingModel>();
+                List<PizzaIngredientBindingModel> productComponentBM = new
+               List<PizzaIngredientBindingModel>();
                 for (int i = 0; i < productComponents.Count; ++i)
                 {
-                    productComponentBM.Add(new ProductComponentBindingModel
+                    productComponentBM.Add(new PizzaIngredientBindingModel
                     {
-                        Id = productComponents[i].Id,
-                        ProductId = productComponents[i].ProductId,
-                        ComponentId = productComponents[i].ComponentId,
-                        Count = productComponents[i].Count
+                        PizzaIngredientId = productComponents[i].PizzaIngredientId,
+                        PizzaId = productComponents[i].PizzaId,
+                        IngredientId = productComponents[i].IngredientId,
+                        PizzaIngredientCount = productComponents[i].PizzaIngredientCount
                     });
                 }
                 if (id.HasValue)
                 {
-                    service.UpdElement(new ProductBindingModel
+                    service.UpdElement(new PizzaBindingModel
                     {
-                        Id = id.Value,
-                        ProductName = maskedTextBoxPizzaName.Text,
-                        Price = Convert.ToInt32(maskedTextBoxCost.Text),
-                        ProductComponents = productComponentBM
+                        PizzaId = id.Value,
+                        PizzaName = maskedTextBoxPizzaName.Text,
+                        Cost = Convert.ToInt32(maskedTextBoxCost.Text),
+                        PizzaIngredients = productComponentBM
                     });
                 }
                 else
                 {
-                    service.AddElement(new ProductBindingModel {
-                        ProductName = maskedTextBoxPizzaName.Text,
-                        Price = Convert.ToInt32(maskedTextBoxCost.Text),
-                        ProductComponents = productComponentBM
+                    service.AddElement(new PizzaBindingModel {
+                        PizzaName = maskedTextBoxPizzaName.Text,
+                        Cost = Convert.ToInt32(maskedTextBoxCost.Text),
+                        PizzaIngredients = productComponentBM
                     });
                 }
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",

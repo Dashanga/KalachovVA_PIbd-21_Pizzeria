@@ -6,7 +6,7 @@ using Unity;
 
 namespace ForgeView
 {
-    public partial class FormCreateIngredient : Form
+    public partial class FormIngredient : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -16,12 +16,12 @@ namespace ForgeView
             set { id = value; }
         }
 
-        private readonly IComponentService service;
+        private readonly IIngredientService service;
 
         private int? id;
 
 
-        public FormCreateIngredient(IComponentService service)
+        public FormIngredient(IIngredientService service)
         {
             InitializeComponent();
             this.service = service;
@@ -35,7 +35,7 @@ namespace ForgeView
                 var view = service.GetElement(id.Value);
                 if (view != null)
                 {
-                    labelName.Text = view.ComponentName;
+                    labelName.Text = view.IngredientName;
                 }
             }
             catch (Exception ex)
@@ -58,17 +58,17 @@ namespace ForgeView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new ComponentBindingModel
+                    service.UpdElement(new IngredientBindingModel
                     {
-                        Id = id.Value,
-                        ComponentName = textBoxName.Text
+                        IngredientId = id.Value,
+                        IngredientName = textBoxName.Text
                     });
                 }
                 else
                 {
-                    service.AddElement(new ComponentBindingModel
+                    service.AddElement(new IngredientBindingModel
                     {
-                        ComponentName = textBoxName.Text
+                        IngredientName = textBoxName.Text
                     });
                 }
 

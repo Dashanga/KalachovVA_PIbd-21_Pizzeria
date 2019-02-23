@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ForgeModel
 {
-    public class Product
+    public class Pizza
     {
-        public int Id { get; set; }
+        public int PizzaId { get; set; }
 
-        public string ProductName { get; set; }
+        public string PizzaName { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal Cost { get; set; }
     }
 }

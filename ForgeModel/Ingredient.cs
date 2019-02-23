@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ForgeModel
 {
-    public class Component
+    public class Ingredient
     {
-        public int Id { get; set; }
+        public int IngredientId { get; set; }
 
-        public string ComponentName { get; set; }
+        public string IngredientName { get; set; }
     }
 }

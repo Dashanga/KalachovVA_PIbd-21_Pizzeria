@@ -14,9 +14,9 @@ namespace ForgeView
 
         public new IUnityContainer Container { get; set; }
 
-        private readonly IMainService service;
+        private readonly IPizzaOrderService service;
 
-        public FormMain(IMainService service)
+        public FormMain(IPizzaOrderService service)
         {
             InitializeComponent();
             this.service = service;
@@ -26,7 +26,7 @@ namespace ForgeView
         {
         try
         {
-            List<OrderViewModel> list = service.GetList();
+            List<PizzaOrderViewModel> list = service.GetList();
             if (list != null)
             {
                 dataGridView.DataSource = list;
@@ -77,7 +77,7 @@ namespace ForgeView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.TakeOrderInWork(new OrderBindingModel { Id = id });
+                    service.TakeOrderInWork(new PizzaOrderBindingModel { PizzaOrderId = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -95,7 +95,7 @@ namespace ForgeView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.FinishOrder(new OrderBindingModel { Id = id });
+                    service.FinishOrder(new PizzaOrderBindingModel { PizzaOrderId = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -114,7 +114,7 @@ namespace ForgeView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.PayOrder(new OrderBindingModel { Id = id });
+                    service.PayOrder(new PizzaOrderBindingModel { PizzaOrderId = id });
                     LoadData();
                 }
                 catch (Exception ex)

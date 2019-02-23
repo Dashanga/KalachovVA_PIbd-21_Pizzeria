@@ -7,23 +7,23 @@ namespace ForgeServiceImplementList
     {
         private static DataListSingleton instance;
 
-        public List<Client> Clients { get; set; }
+        public List<Customer> Clients { get; set; }
 
-        public List<Component> Components { get; set; }
+        public List<Ingredient> Components { get; set; }
 
-        public List<Order> Orders { get; set; }
+        public List<PizzaOrder> Orders { get; set; }
 
-        public List<Product> Products { get; set; }
+        public List<Pizza> Products { get; set; }
 
-        public List<ProductComponent> ProductComponents { get; set; }
+        public List<PizzaIngredient> ProductComponents { get; set; }
 
         private DataListSingleton()
         {
-            Clients = new List<Client>();
-            Components = new List<Component>();
-            Orders = new List<Order>();
-            Products = new List<Product>();
-            ProductComponents = new List<ProductComponent>();
+            Clients = new List<Customer>();
+            Components = new List<Ingredient>();
+            Orders = new List<PizzaOrder>();
+            Products = new List<Pizza>();
+            ProductComponents = new List<PizzaIngredient>();
         }
         public static DataListSingleton GetInstance()
         {

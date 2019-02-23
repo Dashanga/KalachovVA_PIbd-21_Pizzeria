@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ForgeServiceDAL.ViewModel
 {
-    public class ComponentViewModel
+    public class IngredientViewModel
     {
-        public int Id { get; set; }
+        public int IngredientId { get; set; }
 
-        public string ComponentName { get; set; }
+        public string IngredientName { get; set; }
     }
 }

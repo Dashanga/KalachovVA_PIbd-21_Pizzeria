@@ -1,6 +1,6 @@
 ﻿namespace ForgeView
 {
-    partial class FormCreateIngredient
+    partial class FormIngredient
     {
         /// <summary>
         /// Required designer variable.
@@ -70,7 +70,7 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // FormCreateIngredient
+            // FormIngredient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -80,7 +80,7 @@
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.labelName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "FormCreateIngredient";
+            this.Name = "FormIngredient";
             this.Text = "Создание ингредиента";
             this.Load += new System.EventHandler(this.FormCreateIngredient_Load);
             this.ResumeLayout(false);

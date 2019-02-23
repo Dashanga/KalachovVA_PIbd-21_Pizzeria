@@ -23,13 +23,13 @@ namespace ForgeView
         public static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<IClientService, ClientServiceList>(new
+            currentContainer.RegisterType<ICustomerService, CustomerServiceList>(new
            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IComponentService, ComponentServiceList>(new
+            currentContainer.RegisterType<IIngredientService, IngredientServiceList>(new
            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IProductService, ProductServiceList>(new
+            currentContainer.RegisterType<IPizzaService, PizzaServiceList>(new
            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IMainService, MainServiceList>(new
+            currentContainer.RegisterType<IPizzaOrderService, PizzaOrderServiceList>(new
            HierarchicalLifetimeManager());
         return currentContainer;
         }
