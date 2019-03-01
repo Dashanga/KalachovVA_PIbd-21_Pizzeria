@@ -159,13 +159,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ForgeServiceDAL\ForgeServiceDAL.csproj">
+    <ProjectReference Include="..\ForgeServiceDAL\PizzeriaServiceDAL.csproj">
       <Project>{61d051ff-8907-42db-be40-950a7991370d}</Project>
-      <Name>ForgeServiceDAL</Name>
+      <Name>PizzeriaServiceDAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ForgeServiceImplementList\ForgeServiceImplementList.csproj">
+    <ProjectReference Include="..\ForgeServiceImplementList\PizzeriaServiceImplementList.csproj">
       <Project>{4827f26d-823f-4fff-8c57-260e1d5c1a09}</Project>
-      <Name>ForgeServiceImplementList</Name>
+      <Name>PizzeriaServiceImplementList</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
