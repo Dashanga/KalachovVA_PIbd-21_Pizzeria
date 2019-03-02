@@ -129,5 +129,17 @@ namespace ForgeView
         {
             LoadData();
         }
+
+        private void storagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
+            form.ShowDialog();
+        }
+
+        private void putOnStorageItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormPutOnStorage>();
+            form.ShowDialog();
+        }
     }
 }

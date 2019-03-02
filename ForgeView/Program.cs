@@ -31,7 +31,9 @@ namespace ForgeView
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IPizzaOrderService, PizzaOrderServiceList>(new
            HierarchicalLifetimeManager());
-        return currentContainer;
+            currentContainer.RegisterType<IStorageService, StorageServiceList>(new
+                HierarchicalLifetimeManager());
+            return currentContainer;
         }
     }
 }

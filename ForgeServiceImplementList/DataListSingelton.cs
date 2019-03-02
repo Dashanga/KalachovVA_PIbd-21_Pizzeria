@@ -1,5 +1,6 @@
 ﻿using ForgeModel;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 
 namespace ForgeServiceImplementList
 {
@@ -17,6 +18,11 @@ namespace ForgeServiceImplementList
 
         public List<PizzaIngredient> PizzaIngredients { get; set; }
 
+        public List<Storage> Storages { get; set; }
+
+        public List<StorageIngredient> StorageIngredients { get; set; }
+
+
         private DataListSingleton()
         {
             Customers = new List<Customer>();
@@ -24,6 +30,8 @@ namespace ForgeServiceImplementList
             PizzaOrders = new List<PizzaOrder>();
             Pizzas = new List<Pizza>();
             PizzaIngredients = new List<PizzaIngredient>();
+            Storages = new List<Storage>();
+            StorageIngredients = new List<StorageIngredient>();
         }
         public static DataListSingleton GetInstance()
         {

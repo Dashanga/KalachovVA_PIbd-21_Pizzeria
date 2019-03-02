@@ -15,5 +15,7 @@ namespace ForgeServiceDAL.Interfaces
         void FinishOrder(PizzaOrderBindingModel model);
 
         void PayOrder(PizzaOrderBindingModel model);
+
+        void PutIngredientOnStorage(StorageIngredientBindingModel model);
     }
 }
