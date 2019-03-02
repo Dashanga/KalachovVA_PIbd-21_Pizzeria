@@ -18,38 +18,38 @@ namespace ForgeServiceImplementList.Implementations
         public List<PizzaOrderViewModel> GetList()
         {
             List<PizzaOrderViewModel> result = new List<PizzaOrderViewModel>();
-            for (int i = 0; i < source.Orders.Count; ++i)
+            for (int i = 0; i < source.PizzaOrders.Count; ++i)
             {
                 string clientFIO = string.Empty;
-                for (int j = 0; j < source.Clients.Count; ++j)
+                for (int j = 0; j < source.Customers.Count; ++j)
                 {
-                    if (source.Clients[j].CustomerId == source.Orders[i].CustomerId)
+                    if (source.Customers[j].CustomerId == source.PizzaOrders[i].CustomerId)
                     {
-                        clientFIO = source.Clients[j].FullName;
+                        clientFIO = source.Customers[j].FullName;
                         break;
                     }
                 }
                 string productName = string.Empty;
-                for (int j = 0; j < source.Products.Count; ++j)
+                for (int j = 0; j < source.Pizzas.Count; ++j)
                 {
-                    if (source.Products[j].PizzaId == source.Orders[i].PizzaId)
+                    if (source.Pizzas[j].PizzaId == source.PizzaOrders[i].PizzaId)
                     {
-                        productName = source.Products[j].PizzaName;
+                        productName = source.Pizzas[j].PizzaName;
                         break;
                     }
                 }
                 result.Add(new PizzaOrderViewModel
                 {
-                    PizzaOrderId = source.Orders[i].PizzaOrderId,
-                    CustomerId = source.Orders[i].CustomerId,
+                    PizzaOrderId = source.PizzaOrders[i].PizzaOrderId,
+                    CustomerId = source.PizzaOrders[i].CustomerId,
                     FullName = clientFIO,
-                    PizzaId = source.Orders[i].PizzaId,
+                    PizzaId = source.PizzaOrders[i].PizzaId,
                     PizzaName = productName,
-                    PizzaCount = source.Orders[i].PizzaCount,
-                    TotalCost = source.Orders[i].TotalCost,
-                    CreationDate = source.Orders[i].CreationDate.ToLongDateString(),
-                    ImplementationDate = source.Orders[i].ImplementationDate?.ToLongDateString(),
-                    State = source.Orders[i].State.ToString()
+                    PizzaCount = source.PizzaOrders[i].PizzaCount,
+                    TotalCost = source.PizzaOrders[i].TotalCost,
+                    CreationDate = source.PizzaOrders[i].CreationDate.ToLongDateString(),
+                    ImplementationDate = source.PizzaOrders[i].ImplementationDate?.ToLongDateString(),
+                    State = source.PizzaOrders[i].State.ToString()
                 });
             }
             return result;
@@ -57,14 +57,14 @@ namespace ForgeServiceImplementList.Implementations
         public void CreateOrder(PizzaOrderBindingModel model)
         {
             int maxId = 0;
-            for (int i = 0; i < source.Orders.Count; ++i)
+            for (int i = 0; i < source.PizzaOrders.Count; ++i)
             {
-                if (source.Orders[i].PizzaOrderId > maxId)
+                if (source.PizzaOrders[i].PizzaOrderId > maxId)
                 {
-                    maxId = source.Clients[i].CustomerId;
+                    maxId = source.Customers[i].CustomerId;
                 }
             }
-            source.Orders.Add(new PizzaOrder
+            source.PizzaOrders.Add(new PizzaOrder
             {
                 PizzaOrderId = maxId + 1,
                 CustomerId = model.CustomerId,
@@ -78,9 +78,9 @@ namespace ForgeServiceImplementList.Implementations
         public void TakeOrderInWork(PizzaOrderBindingModel model)
         {
             int index = -1;
-            for (int i = 0; i < source.Orders.Count; ++i)
+            for (int i = 0; i < source.PizzaOrders.Count; ++i)
             {
-                if (source.Orders[i].PizzaOrderId == model.PizzaOrderId)
+                if (source.PizzaOrders[i].PizzaOrderId == model.PizzaOrderId)
                 {
                     index = i;
                     break;
@@ -90,19 +90,19 @@ namespace ForgeServiceImplementList.Implementations
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.Orders[index].State != PizzaOrderStatus.Received)
+            if (source.PizzaOrders[index].State != PizzaOrderStatus.Received)
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-            source.Orders[index].ImplementationDate = DateTime.Now;
-            source.Orders[index].State = PizzaOrderStatus.Processing;
+            source.PizzaOrders[index].ImplementationDate = DateTime.Now;
+            source.PizzaOrders[index].State = PizzaOrderStatus.Processing;
         }
         public void FinishOrder(PizzaOrderBindingModel model)
         {
             int index = -1;
-            for (int i = 0; i < source.Orders.Count; ++i)
+            for (int i = 0; i < source.PizzaOrders.Count; ++i)
             {
-                if (source.Clients[i].CustomerId == model.PizzaOrderId)
+                if (source.Customers[i].CustomerId == model.PizzaOrderId)
                 {
                     index = i;
                     break;
@@ -112,18 +112,18 @@ namespace ForgeServiceImplementList.Implementations
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.Orders[index].State != PizzaOrderStatus.Processing)
+            if (source.PizzaOrders[index].State != PizzaOrderStatus.Processing)
             {
                 throw new Exception("Заказ не в статусе \"Выполняется\"");
             }
-            source.Orders[index].State = PizzaOrderStatus.Ready;
+            source.PizzaOrders[index].State = PizzaOrderStatus.Ready;
         }
         public void PayOrder(PizzaOrderBindingModel model)
         {
             int index = -1;
-            for (int i = 0; i < source.Orders.Count; ++i)
+            for (int i = 0; i < source.PizzaOrders.Count; ++i)
             {
-                if (source.Clients[i].CustomerId == model.PizzaOrderId)
+                if (source.Customers[i].CustomerId == model.PizzaOrderId)
                 {
                     index = i;
                     break;
@@ -133,11 +133,11 @@ namespace ForgeServiceImplementList.Implementations
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.Orders[index].State != PizzaOrderStatus.Ready)
+            if (source.PizzaOrders[index].State != PizzaOrderStatus.Ready)
             {
                 throw new Exception("Заказ не в статусе \"Готов\"");
             }
-            source.Orders[index].State = PizzaOrderStatus.Paid;
+            source.PizzaOrders[index].State = PizzaOrderStatus.Paid;
         }
     }
 }

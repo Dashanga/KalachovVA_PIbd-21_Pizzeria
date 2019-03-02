@@ -19,12 +19,12 @@ namespace ForgeServiceImplementList.Implementations
         public List<IngredientViewModel> GetList()
         {
             var result = new List<IngredientViewModel>();
-            for (int i = 0; i < source.Components.Count; ++i)
+            for (int i = 0; i < source.Ingredients.Count; ++i)
             {
                 result.Add(new IngredientViewModel
                 {
-                    IngredientId = source.Components[i].IngredientId,
-                    IngredientName = source.Components[i].IngredientName
+                    IngredientId = source.Ingredients[i].IngredientId,
+                    IngredientName = source.Ingredients[i].IngredientName
                 });
             }
             return result;
@@ -32,14 +32,14 @@ namespace ForgeServiceImplementList.Implementations
 
         public IngredientViewModel GetElement(int id)
         {
-            for (int i = 0; i < source.Components.Count; ++i)
+            for (int i = 0; i < source.Ingredients.Count; ++i)
             {
-                if (source.Components[i].IngredientId == id)
+                if (source.Ingredients[i].IngredientId == id)
                 {
                     return new IngredientViewModel
                     {
-                        IngredientId = source.Components[i].IngredientId,
-                        IngredientName = source.Components[i].IngredientName
+                        IngredientId = source.Ingredients[i].IngredientId,
+                        IngredientName = source.Ingredients[i].IngredientName
                     };
                 }
             }
@@ -49,18 +49,18 @@ namespace ForgeServiceImplementList.Implementations
         public void AddElement(IngredientBindingModel model)
         {
             int maxId = 0;
-            for (int i = 0; i < source.Components.Count; ++i)
+            for (int i = 0; i < source.Ingredients.Count; ++i)
             {
-                if (source.Components[i].IngredientId > maxId)
+                if (source.Ingredients[i].IngredientId > maxId)
                 {
-                    maxId = source.Components[i].IngredientId;
+                    maxId = source.Ingredients[i].IngredientId;
                 }
-                if (source.Components[i].IngredientName == model.IngredientName)
+                if (source.Ingredients[i].IngredientName == model.IngredientName)
                 {
                     throw new Exception("Уже есть ингредиент с таким названием");
                 }
             }
-            source.Components.Add(new Ingredient
+            source.Ingredients.Add(new Ingredient
             {
                 IngredientId = maxId + 1,
                 IngredientName = model.IngredientName
@@ -70,14 +70,14 @@ namespace ForgeServiceImplementList.Implementations
         public void UpdElement(IngredientBindingModel model)
         {
             int index = -1;
-            for (int i = 0; i < source.Components.Count; ++i)
+            for (int i = 0; i < source.Ingredients.Count; ++i)
             {
-                if (source.Components[i].IngredientId == model.IngredientId)
+                if (source.Ingredients[i].IngredientId == model.IngredientId)
                 {
                     index = i;
                 }
-                if (source.Components[i].IngredientName == model.IngredientName &&
-                source.Components[i].IngredientId != model.IngredientId)
+                if (source.Ingredients[i].IngredientName == model.IngredientName &&
+                source.Ingredients[i].IngredientId != model.IngredientId)
                 {
                     throw new Exception("Уже есть мнгредиент с такими названием");
                 }
@@ -86,16 +86,16 @@ namespace ForgeServiceImplementList.Implementations
             {
                 throw new Exception("Элемент не найден");
             }
-            source.Components[index].IngredientName = model.IngredientName;
+            source.Ingredients[index].IngredientName = model.IngredientName;
         }
 
         public void DelElement(int id)
         {
-            for (int i = 0; i < source.Components.Count; ++i)
+            for (int i = 0; i < source.Ingredients.Count; ++i)
             {
-                if (source.Components[i].IngredientId == id)
+                if (source.Ingredients[i].IngredientId == id)
                 {
-                    source.Components.RemoveAt(i);
+                    source.Ingredients.RemoveAt(i);
                     return;
                 }
             }
