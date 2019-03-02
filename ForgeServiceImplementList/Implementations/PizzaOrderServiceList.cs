@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ForgeModel;
 using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.ViewModel;
@@ -17,53 +18,29 @@ namespace ForgeServiceImplementList.Implementations
         }
         public List<PizzaOrderViewModel> GetList()
         {
-            List<PizzaOrderViewModel> result = new List<PizzaOrderViewModel>();
-            for (int i = 0; i < source.PizzaOrders.Count; ++i)
-            {
-                string clientFIO = string.Empty;
-                for (int j = 0; j < source.Customers.Count; ++j)
+            List<PizzaOrderViewModel> result = source.PizzaOrders
+                .Select(rec => new PizzaOrderViewModel
                 {
-                    if (source.Customers[j].CustomerId == source.PizzaOrders[i].CustomerId)
-                    {
-                        clientFIO = source.Customers[j].FullName;
-                        break;
-                    }
-                }
-                string productName = string.Empty;
-                for (int j = 0; j < source.Pizzas.Count; ++j)
-                {
-                    if (source.Pizzas[j].PizzaId == source.PizzaOrders[i].PizzaId)
-                    {
-                        productName = source.Pizzas[j].PizzaName;
-                        break;
-                    }
-                }
-                result.Add(new PizzaOrderViewModel
-                {
-                    PizzaOrderId = source.PizzaOrders[i].PizzaOrderId,
-                    CustomerId = source.PizzaOrders[i].CustomerId,
-                    FullName = clientFIO,
-                    PizzaId = source.PizzaOrders[i].PizzaId,
-                    PizzaName = productName,
-                    PizzaCount = source.PizzaOrders[i].PizzaCount,
-                    TotalCost = source.PizzaOrders[i].TotalCost,
-                    CreationDate = source.PizzaOrders[i].CreationDate.ToLongDateString(),
-                    ImplementationDate = source.PizzaOrders[i].ImplementationDate?.ToLongDateString(),
-                    State = source.PizzaOrders[i].State.ToString()
-                });
-            }
+                    PizzaOrderId = rec.PizzaOrderId,
+                    CustomerId = rec.CustomerId,
+                    PizzaId = rec.PizzaId,
+                    CreationDate = rec.CreationDate.ToLongDateString(),
+                    ImplementationDate = rec.ImplementationDate?.ToLongDateString(),
+                    State = rec.State.ToString(),
+                    PizzaCount = rec.PizzaCount,
+                    TotalCost = rec.TotalCost,
+                    FullName = source.Customers.FirstOrDefault(recC => recC.CustomerId ==
+                                                                      rec.CustomerId)?.FullName,
+                    PizzaName = source.Pizzas.FirstOrDefault(recP => recP.PizzaId ==
+                                                                         rec.PizzaId)?.PizzaName,
+                })
+                .ToList();
             return result;
         }
+
         public void CreateOrder(PizzaOrderBindingModel model)
         {
-            int maxId = 0;
-            for (int i = 0; i < source.PizzaOrders.Count; ++i)
-            {
-                if (source.PizzaOrders[i].PizzaOrderId > maxId)
-                {
-                    maxId = source.Customers[i].CustomerId;
-                }
-            }
+            int maxId = source.PizzaOrders.Count > 0 ? source.PizzaOrders.Max(rec => rec.PizzaOrderId) : 0;
             source.PizzaOrders.Add(new PizzaOrder
             {
                 PizzaOrderId = maxId + 1,
@@ -75,69 +52,47 @@ namespace ForgeServiceImplementList.Implementations
                 State = PizzaOrderStatus.Received
             });
         }
+
         public void TakeOrderInWork(PizzaOrderBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.PizzaOrders.Count; ++i)
-            {
-                if (source.PizzaOrders[i].PizzaOrderId == model.PizzaOrderId)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            if (index == -1)
+            PizzaOrder element = source.PizzaOrders.FirstOrDefault(rec => rec.PizzaOrderId == model.PizzaOrderId);
+            if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.PizzaOrders[index].State != PizzaOrderStatus.Received)
+            if (element.State != PizzaOrderStatus.Received)
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-            source.PizzaOrders[index].ImplementationDate = DateTime.Now;
-            source.PizzaOrders[index].State = PizzaOrderStatus.Processing;
+            element.ImplementationDate = DateTime.Now;
+            element.State = PizzaOrderStatus.Processing;
         }
         public void FinishOrder(PizzaOrderBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.PizzaOrders.Count; ++i)
-            {
-                if (source.Customers[i].CustomerId == model.PizzaOrderId)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            if (index == -1)
+            PizzaOrder element = source.PizzaOrders.FirstOrDefault(rec => rec.PizzaOrderId == model.PizzaOrderId);
+            if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.PizzaOrders[index].State != PizzaOrderStatus.Processing)
+            if (element.State != PizzaOrderStatus.Processing)
             {
                 throw new Exception("Заказ не в статусе \"Выполняется\"");
             }
-            source.PizzaOrders[index].State = PizzaOrderStatus.Ready;
+            element.State = PizzaOrderStatus.Ready;
         }
+
         public void PayOrder(PizzaOrderBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.PizzaOrders.Count; ++i)
-            {
-                if (source.Customers[i].CustomerId == model.PizzaOrderId)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            if (index == -1)
+            PizzaOrder element = source.PizzaOrders.FirstOrDefault(rec => rec.PizzaOrderId == model.PizzaOrderId);
+            if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.PizzaOrders[index].State != PizzaOrderStatus.Ready)
+            if (element.State != PizzaOrderStatus.Ready)
             {
                 throw new Exception("Заказ не в статусе \"Готов\"");
             }
-            source.PizzaOrders[index].State = PizzaOrderStatus.Paid;
+            element.State = PizzaOrderStatus.Paid;
         }
     }
 }
