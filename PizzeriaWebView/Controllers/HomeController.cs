@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ForgeServiceDAL.Interfaces;
+using ForgeServiceImplementList.Implementations;
 
 namespace PizzeriaWebView.Controllers
 {
@@ -13,18 +15,19 @@ namespace PizzeriaWebView.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Customers()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            return RedirectToAction("Index","Customers");
         }
 
-        public ActionResult Contact()
+        public ActionResult Ingredients()
         {
-            ViewBag.Message = "Your contact page.";
+            return RedirectToAction("Index", "Ingredients");
+        }
 
-            return View();
+        public ActionResult Pizzas()
+        {
+            return RedirectToAction("Index", "Pizzas");
         }
     }
 }
