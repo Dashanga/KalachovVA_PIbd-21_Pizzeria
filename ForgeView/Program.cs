@@ -20,6 +20,7 @@ namespace ForgeView
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(container.Resolve<FormMain>());
         }
+
         public static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
