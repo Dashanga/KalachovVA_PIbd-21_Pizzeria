@@ -3,6 +3,8 @@ using System.Windows.Forms;
 using Unity;
 using ForgeServiceDAL.Interfaces;
 using ForgeServiceImplementList.Implementations;
+using PizzeriaServiceImplementDB.Implementations;
+
 using Unity.Lifetime;
 
 namespace ForgeView
@@ -24,15 +26,15 @@ namespace ForgeView
         public static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<ICustomerService, CustomerServiceList>(new
+            currentContainer.RegisterType<ICustomerService, CustomerServiceDb>(new
            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IIngredientService, IngredientServiceList>(new
+            currentContainer.RegisterType<IIngredientService, IngredientServiceDb>(new
            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IPizzaService, PizzaServiceList>(new
+            currentContainer.RegisterType<IPizzaService, PizzaServiceDb>(new
            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IPizzaOrderService, PizzaOrderServiceList>(new
+            currentContainer.RegisterType<IPizzaOrderService, PizzaOrderServiceDb>(new
            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IStorageService, StorageServiceList>(new
+            currentContainer.RegisterType<IStorageService, StorageServiceDb>(new
                 HierarchicalLifetimeManager());
             return currentContainer;
         }

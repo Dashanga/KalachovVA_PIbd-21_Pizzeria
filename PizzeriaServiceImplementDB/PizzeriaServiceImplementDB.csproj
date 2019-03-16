@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7C894EAB-A76A-44BF-98AA-A1751C473B4D}</ProjectGuid>
+    <ProjectGuid>{45267720-6E2F-4782-864E-9E3A7ABC5D00}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ForgeModel</RootNamespace>
-    <AssemblyName>ForgeModel</AssemblyName>
+    <RootNamespace>PizzeriaServiceImplementDB</RootNamespace>
+    <AssemblyName>PizzeriaServiceImplementDB</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -48,19 +48,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Customer.cs" />
-    <Compile Include="Ingredient.cs" />
-    <Compile Include="PizzaOrder.cs" />
-    <Compile Include="PizzaOrderStatus.cs" />
-    <Compile Include="Pizza.cs" />
-    <Compile Include="PizzaIngredient.cs" />
+    <Compile Include="AbstractDbContext.cs" />
+    <Compile Include="Implementations\CustomerServiceDb.cs" />
+    <Compile Include="Implementations\IngredientServiceDb.cs" />
+    <Compile Include="Implementations\PizzaOrderServiceDb.cs" />
+    <Compile Include="Implementations\PizzaServiceDb.cs" />
+    <Compile Include="Implementations\StorageServiceDb.cs" />
+    <Compile Include="Migrations\201903160830156_First-Migration.cs" />
+    <Compile Include="Migrations\201903160830156_First-Migration.Designer.cs">
+      <DependentUpon>201903160830156_First-Migration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage.cs" />
-    <Compile Include="StorageIngredient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <ProjectReference Include="..\ForgeModel\PizzeriaModel.csproj">
+      <Project>{7c894eab-a76a-44bf-98aa-a1751c473b4d}</Project>
+      <Name>PizzeriaModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ForgeServiceDAL\PizzeriaServiceDAL.csproj">
+      <Project>{61d051ff-8907-42db-be40-950a7991370d}</Project>
+      <Name>PizzeriaServiceDAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201903160830156_First-Migration.resx">
+      <DependentUpon>201903160830156_First-Migration.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

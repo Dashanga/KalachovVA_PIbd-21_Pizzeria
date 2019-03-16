@@ -23,5 +23,9 @@ namespace ForgeModel
         public DateTime CreationDate { get; set; }
 
         public DateTime? ImplementationDate { get; set; }
+
+        public virtual Customer Customer { get; set; }
+
+        public virtual Pizza Pizza { get; set; }
     }
 }
