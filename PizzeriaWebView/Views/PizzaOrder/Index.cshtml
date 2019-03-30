@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ForgeServiceDAL.ViewModel.PizzaOrderViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+@Html.ValidationSummary(true)
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PizzaName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PizzaCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PizzaName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PizzaCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+        <td>
+            @Html.ActionLink("Отдать на выполнение", "SetStatus", new { id=item.PizzaOrderId, status = "Processing" }) |
+            @Html.ActionLink("Заказ готов", "SetStatus", new { id = item.PizzaOrderId, status = "Ready" }) |
+            @Html.ActionLink("Заказ оплачен", "SetStatus", new { id = item.PizzaOrderId, status = "Paid" })
+        </td>
+    </tr>
+}
+
+</table>
