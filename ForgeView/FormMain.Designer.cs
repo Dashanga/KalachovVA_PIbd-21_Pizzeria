@@ -35,6 +35,10 @@
             this.pizzasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.storagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.putOnStorageItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.прайсToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.storageLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.customerOrdersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonRef = new System.Windows.Forms.Button();
@@ -50,7 +54,8 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.helpToolStripMenuItem,
-            this.putOnStorageItem});
+            this.putOnStorageItem,
+            this.reportsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(717, 28);
@@ -102,6 +107,37 @@
             this.putOnStorageItem.Size = new System.Drawing.Size(141, 24);
             this.putOnStorageItem.Text = "Пополнить склад";
             this.putOnStorageItem.Click += new System.EventHandler(this.putOnStorageItem_Click);
+            // 
+            // reportsToolStripMenuItem
+            // 
+            this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.прайсToolStripMenuItem,
+            this.storageLoadToolStripMenuItem,
+            this.customerOrdersToolStripMenuItem});
+            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
+            this.reportsToolStripMenuItem.Text = "Отчеты";
+            // 
+            // прайсToolStripMenuItem
+            // 
+            this.прайсToolStripMenuItem.Name = "прайсToolStripMenuItem";
+            this.прайсToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.прайсToolStripMenuItem.Text = "Прайс";
+            this.прайсToolStripMenuItem.Click += new System.EventHandler(this.прайсToolStripMenuItem_Click);
+            // 
+            // storageLoadToolStripMenuItem
+            // 
+            this.storageLoadToolStripMenuItem.Name = "storageLoadToolStripMenuItem";
+            this.storageLoadToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.storageLoadToolStripMenuItem.Text = "Загруженность складов";
+            this.storageLoadToolStripMenuItem.Click += new System.EventHandler(this.storageLoadToolStripMenuItem_Click);
+            // 
+            // customerOrdersToolStripMenuItem
+            // 
+            this.customerOrdersToolStripMenuItem.Name = "customerOrdersToolStripMenuItem";
+            this.customerOrdersToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.customerOrdersToolStripMenuItem.Text = "Заказы клиентов";
+            this.customerOrdersToolStripMenuItem.Click += new System.EventHandler(this.customerOrdersToolStripMenuItem_Click);
             // 
             // dataGridView
             // 
@@ -201,6 +237,10 @@
         private System.Windows.Forms.Button buttonReady;
         private System.Windows.Forms.ToolStripMenuItem storagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem putOnStorageItem;
+        private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem прайсToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem storageLoadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem customerOrdersToolStripMenuItem;
     }
 }
 

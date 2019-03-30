@@ -16,10 +16,13 @@ namespace ForgeView
 
         private readonly IPizzaOrderService service;
 
-        public FormMain(IPizzaOrderService service)
+        private readonly IReportService reportService;
+
+        public FormMain(IPizzaOrderService service, IReportService reportService)
         {
             InitializeComponent();
             this.service = service;
+            this.reportService = reportService;
         }
 
         private void LoadData()
@@ -139,6 +142,44 @@ namespace ForgeView
         private void putOnStorageItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormPutOnStorage>();
+            form.ShowDialog();
+        }
+
+        private void прайсToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "doc|*.doc|docx|*.docx"
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    reportService.SaveProductPrice(new ReportBindingModel
+                    {
+                        FileName = sfd.FileName
+                    });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void storageLoadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorageLoad>();
+            form.ShowDialog();
+
+        }
+
+        private void customerOrdersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReport>();
             form.ShowDialog();
         }
     }
