@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
 
@@ -51,7 +48,26 @@ namespace PizzeriaWebView.Controllers
         [HttpPost]
         public ActionResult CreatePizzaPost()
         {
-
+            var pizza = (PizzaViewModel) Session["Pizza"];
+            var pizzaIngredeints = new List<PizzaIngredientBindingModel>();
+            for (int i = 0; i < pizza.PizzaIngredients.Count; ++i)
+            {
+                pizzaIngredeints.Add(new PizzaIngredientBindingModel
+                {
+                    PizzaIngredientId = pizza.PizzaIngredients[i].PizzaIngredientId,
+                    PizzaId = pizza.PizzaIngredients[i].PizzaId,
+                    IngredientId = pizza.PizzaIngredients[i].IngredientId,
+                    PizzaIngredientCount = pizza.PizzaIngredients[i].PizzaIngredientCount
+                });
+            }
+            service.AddElement(new PizzaBindingModel
+            {
+                PizzaName = Request["PizzaName"],
+                Cost = int.Parse(Request["Cost"]),
+                PizzaIngredients = pizzaIngredeints
+            });
+            Session.Remove("Pizza");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

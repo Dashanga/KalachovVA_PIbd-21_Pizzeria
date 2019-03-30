@@ -13,5 +13,6 @@ namespace PizzeriaWebView
         public static ICustomerService CustomerService { get; } = new CustomerServiceList();
         public static IIngredientService IngredientService { get; } = new IngredientServiceList();
         public static IPizzaService PizzaService { get; } = new PizzaServiceList();
+        public static IPizzaOrderService PizzaOrderService { get; } = new PizzaOrderServiceList();
     }
 }

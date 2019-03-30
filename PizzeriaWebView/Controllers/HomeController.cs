@@ -29,5 +29,10 @@ namespace PizzeriaWebView.Controllers
         {
             return RedirectToAction("Index", "Pizzas");
         }
+
+        public ActionResult PizzaOrders()
+        {
+            return RedirectToAction("Index", "PizzaOrder");
+        }
     }
 }
