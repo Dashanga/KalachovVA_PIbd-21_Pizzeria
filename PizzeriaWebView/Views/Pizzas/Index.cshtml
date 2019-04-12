@@ -1,5 +1,5 @@
-﻿@using ForgeModel
-@model ForgeServiceDAL.ViewModel.PizzaViewModel
+﻿@using PizzeriaWebView.Controllers
+@model IEnumerable<ForgeServiceDAL.ViewModel.PizzaViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -8,72 +8,39 @@
 
 <h2>Index</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Index", "Pizza")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PizzaId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PizzaName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cost)
+        </th>
+        <th></th>
+    </tr>
 
-@using (Html.BeginForm("CreatePizzaPost", "Pizzas", FormMethod.Post)) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Pizza's ingredients</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PizzaName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PizzaName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PizzaName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <p>
-                @Html.ActionLink("Add", "AddIngredient")
-            </p>
-            <table class="table">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.PizzaIngredients[0].IngredientName)
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model.PizzaIngredients) {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IngredientName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PizzaIngredientCount)
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                }
-
-            </table>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PizzaId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PizzaName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cost)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PizzaId}) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PizzaId})
+        </td>
+    </tr>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+</table>
