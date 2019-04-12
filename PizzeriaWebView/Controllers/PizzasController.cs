@@ -1,73 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.Interfaces;
-using ForgeServiceDAL.ViewModel;
 
 namespace PizzeriaWebView.Controllers
 {
     public class PizzasController : Controller
     {
-        private IPizzaService service = Globals.PizzaService;
-        private IIngredientService ingredientService = Globals.IngredientService;
-
+        public IPizzaService service = Globals.PizzaService;
         // GET: Pizzas
         public ActionResult Index()
         {
-            if (Session["Pizza"] == null)
-            {
-                var pizza = new PizzaViewModel();
-                pizza.PizzaIngredients = new List<PizzaIngredientViewModel>();
-                Session["Pizza"] = pizza;
-            }
-            return View((PizzaViewModel) Session["Pizza"]);
+            return View(service.GetList());
         }
 
-        public ActionResult AddIngredient()
+        public ActionResult Delete(int id)
         {
-            var ingredients = new SelectList(ingredientService.GetList(), "IngredientId", "IngredientName");
-            ViewBag.Ingredients = ingredients;
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddIngredientPost()
-        {
-            var pizza = (PizzaViewModel) Session["Pizza"];
-            var ingredient = new PizzaIngredientViewModel
-            {
-                IngredientId = int.Parse(Request["IngredientId"]),
-                IngredientName = ingredientService.GetElement(int.Parse(Request["IngredientId"])).IngredientName,
-                PizzaIngredientCount = int.Parse(Request["PizzaIngredientCount"])
-            };
-            pizza.PizzaIngredients.Add(ingredient);
-            Session["Pizza"] = pizza;
+            service.DelElement(id);
             return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public ActionResult CreatePizzaPost()
-        {
-            var pizza = (PizzaViewModel) Session["Pizza"];
-            var pizzaIngredeints = new List<PizzaIngredientBindingModel>();
-            for (int i = 0; i < pizza.PizzaIngredients.Count; ++i)
-            {
-                pizzaIngredeints.Add(new PizzaIngredientBindingModel
-                {
-                    PizzaIngredientId = pizza.PizzaIngredients[i].PizzaIngredientId,
-                    PizzaId = pizza.PizzaIngredients[i].PizzaId,
-                    IngredientId = pizza.PizzaIngredients[i].IngredientId,
-                    PizzaIngredientCount = pizza.PizzaIngredients[i].PizzaIngredientCount
-                });
-            }
-            service.AddElement(new PizzaBindingModel
-            {
-                PizzaName = Request["PizzaName"],
-                Cost = int.Parse(Request["Cost"]),
-                PizzaIngredients = pizzaIngredeints
-            });
-            Session.Remove("Pizza");
-            return RedirectToAction("Index", "Home");
         }
     }
 }

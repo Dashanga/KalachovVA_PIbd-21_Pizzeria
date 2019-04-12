@@ -130,6 +130,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IngredientsController.cs" />
     <Compile Include="Controllers\PizzaOrderController.cs" />
+    <Compile Include="Controllers\PizzaController.cs" />
     <Compile Include="Controllers\PizzasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -177,10 +178,11 @@
     <Content Include="Views\Ingredients\Create.cshtml" />
     <Content Include="Views\Ingredients\Index.cshtml" />
     <Content Include="Views\Ingredients\Edit.cshtml" />
-    <Content Include="Views\Pizzas\Index.cshtml" />
-    <Content Include="Views\Pizzas\AddIngredient.cshtml" />
+    <Content Include="Views\Pizza\Index.cshtml" />
+    <Content Include="Views\Pizza\AddIngredient.cshtml" />
     <Content Include="Views\PizzaOrder\Index.cshtml" />
     <Content Include="Views\PizzaOrder\Create.cshtml" />
+    <Content Include="Views\Pizzas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
