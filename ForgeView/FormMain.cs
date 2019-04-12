@@ -59,7 +59,7 @@ namespace ForgeView
 
         private void pizzasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormPizza>();
+            var form = Container.Resolve<FormPizzas>();
             form.ShowDialog();
         }
 
