@@ -10,25 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity;
-
 namespace ForgeView
 {
     public partial class FormPizzaOrder : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly ICustomerService serviceC;
-        private readonly IPizzaService serviceP;
-        private readonly IPizzaOrderService serviceM;
-
-
-        public FormPizzaOrder(ICustomerService serviceC, IPizzaService serviceP, IPizzaOrderService serviceM)
+        public FormPizzaOrder()
         {
             InitializeComponent();
-            this.serviceC = serviceC;
-            this.serviceP = serviceP;
-            this.serviceM = serviceM;
 
         }
 
@@ -40,7 +28,7 @@ namespace ForgeView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxPizza.SelectedValue);
-                    PizzaViewModel pizza = serviceP.GetElement(id);
+                    PizzaViewModel pizza = ApiClient.GetRequest<PizzaViewModel>("api/Pizza/Get/" + id);
                     int count = Convert.ToInt32(textBoxCount.Text);
                     textBoxTotal.Text = (count * pizza.Cost).ToString();
                 }
@@ -56,7 +44,7 @@ namespace ForgeView
         {
             try
             {
-                List<CustomerViewModel> listC = serviceC.GetList();
+                List<CustomerViewModel> listC = ApiClient.GetRequest<List<CustomerViewModel>>("api/Customer/GetList");
                 if (listC != null)
                 {
                     comboBoxCustomer.DisplayMember = "FullName";
@@ -64,7 +52,7 @@ namespace ForgeView
                     comboBoxCustomer.DataSource = listC;
                     comboBoxCustomer.SelectedItem = null;
                 }
-                List<PizzaViewModel> listP = serviceP.GetList();
+                List<PizzaViewModel> listP = ApiClient.GetRequest<List<PizzaViewModel>>("api/Pizza/GetList");
                 if (listP != null)
                 {
                     comboBoxPizza.DisplayMember = "PizzaName";
@@ -112,12 +100,12 @@ namespace ForgeView
             }
             try
             {
-                serviceM.CreateOrder(new PizzaOrderBindingModel
+                ApiClient.PostRequest<PizzaOrderBindingModel, bool>("api/PizzaOrder/CreateOrder", new PizzaOrderBindingModel
                 {
                     CustomerId = Convert.ToInt32(comboBoxCustomer.SelectedValue),
                     PizzaId = Convert.ToInt32(comboBoxPizza.SelectedValue),
                     PizzaCount = Convert.ToInt32(textBoxCount.Text),
-                    TotalCost = Convert.ToInt32(textBoxTotal.Text)
+                    TotalCost = Convert.ToDecimal(textBoxTotal.Text)
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
                MessageBoxButtons.OK, MessageBoxIcon.Information);

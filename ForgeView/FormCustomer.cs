@@ -3,25 +3,18 @@ using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
 using System;
 using System.Windows.Forms;
-using Unity;
 
 namespace ForgeView
 {
     public partial class FormCustomer : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
         public int Id { set { id = value; } }
-
-        private readonly ICustomerService service;
 
         private int? id;
 
-        public FormCustomer(ICustomerService service)
+        public FormCustomer()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormCustomer_Load(object sender, EventArgs e)
@@ -30,7 +23,8 @@ namespace ForgeView
             {
                 try
                 {
-                    CustomerViewModel view = service.GetElement(id.Value);
+                    CustomerViewModel view = ApiClient.GetRequest<CustomerViewModel>("api/Customer/Get/" + id.Value);
+                    maskedTextBoxInitials.Text = view.FullName;
                     if (view != null)
                     {
                         maskedTextBoxInitials.Text = view.FullName;
@@ -56,7 +50,7 @@ namespace ForgeView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new CutstomerBindingModel
+                    ApiClient.PostRequest<CutstomerBindingModel, bool>("api/Customer/UpdElement", new CutstomerBindingModel
                     {
                         CustomerId = id.Value,
                         FullName = maskedTextBoxInitials.Text
@@ -64,7 +58,7 @@ namespace ForgeView
                 }
                 else
                 {
-                    service.AddElement(new CutstomerBindingModel
+                    ApiClient.PostRequest<CutstomerBindingModel, bool>("api/Customer/AddElement", new CutstomerBindingModel
                     {
                         FullName = maskedTextBoxInitials.Text
                     });

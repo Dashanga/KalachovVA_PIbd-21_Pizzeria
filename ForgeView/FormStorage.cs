@@ -10,21 +10,15 @@ using System.Windows.Forms;
 using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
-using Unity;
-
 namespace ForgeView
 {
     public partial class FormStorage : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
-        private readonly IStorageService service;
         private int? id;
 
-        public FormStorage(IStorageService service)
+        public FormStorage()
         {
-            this.service = service;
             InitializeComponent();
         }
 
@@ -34,7 +28,7 @@ namespace ForgeView
             {
                 try
                 {
-                    StorageViewModel view = service.GetElement(id.Value);
+                    StorageViewModel view = ApiClient.GetRequest<StorageViewModel>("api/Storage/Get/" + id.Value);
                     if (view != null)
                     {
                         nameTextBox.Text = view.StorageName;
@@ -66,7 +60,7 @@ namespace ForgeView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new StorageBindingModel
+                    ApiClient.PostRequest<StorageBindingModel, bool>("api/Storage/UpdElement", new StorageBindingModel
                     {
                         StorageId = id.Value,
                         StorageName = nameTextBox.Text
@@ -74,7 +68,7 @@ namespace ForgeView
                 }
                 else
                 {
-                    service.AddElement(new StorageBindingModel
+                    ApiClient.PostRequest<StorageBindingModel, bool>("api/Storage/AddElement", new StorageBindingModel
                     {
                         StorageName = nameTextBox.Text
                     });

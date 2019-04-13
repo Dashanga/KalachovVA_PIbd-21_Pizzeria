@@ -3,33 +3,29 @@ using ForgeServiceDAL.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Unity;
 
 namespace ForgeView
 {
     public partial class FormAddIngredient : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
         public PizzaIngredientViewModel Model
         {
             set { model = value; }
             get { return model; }
         }
-        private readonly IIngredientService service;
         private PizzaIngredientViewModel model;
 
-        public FormAddIngredient(IIngredientService service)
+        public FormAddIngredient()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormPizzaIngredient_Load(object sender, EventArgs e)
         {
             try
             {
-                List<IngredientViewModel> list = service.GetList();
+                List<IngredientViewModel> list =
+                    ApiClient.GetRequest<List<IngredientViewModel>>("api/Ingredient/GetList");
                 if (list != null)
                 {
                     comboBoxProductComponents.DisplayMember = "IngredientName";

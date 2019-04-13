@@ -4,71 +4,60 @@ using ForgeServiceDAL.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Unity;
 
 namespace ForgeView
 {
     public partial class FormMain : Form
     {
-        [Dependency]
-
-        public new IUnityContainer Container { get; set; }
-
-        private readonly IPizzaOrderService service;
-
-        private readonly IReportService reportService;
-
-        public FormMain(IPizzaOrderService service, IReportService reportService)
+        public FormMain()
         {
             InitializeComponent();
-            this.service = service;
-            this.reportService = reportService;
         }
 
         private void LoadData()
         {
-        try
-        {
-            List<PizzaOrderViewModel> list = service.GetList();
-            if (list != null)
+            try
             {
-                dataGridView.DataSource = list;
-                dataGridView.Columns[0].Visible = false;
-                dataGridView.Columns[1].Visible = false;
-                dataGridView.Columns[3].Visible = false;
-                dataGridView.Columns[5].Visible = false;
-                dataGridView.Columns[1].AutoSizeMode =
-                DataGridViewAutoSizeColumnMode.Fill;
+                List<PizzaOrderViewModel> list = ApiClient.GetRequest<List<PizzaOrderViewModel>>("api/PizzaOrder/GetList");
+                if (list != null)
+                {
+                    dataGridView.DataSource = list;
+                    dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[1].Visible = false;
+                    dataGridView.Columns[3].Visible = false;
+                    dataGridView.Columns[5].Visible = false;
+                    dataGridView.Columns[1].AutoSizeMode =
+                    DataGridViewAutoSizeColumnMode.Fill;
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-            MessageBoxIcon.Error);
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
             }
         }
 
         private void customerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormCustomers>();
+            var form = new FormCustomers();
             form.ShowDialog();
         }
 
         private void ingredientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormIngredients>();
+            var form = new FormIngredients();
             form.ShowDialog();
         }
 
         private void pizzasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormPizzas>();
+            var form = new FormPizzas();
             form.ShowDialog();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormPizzaOrder>();
+            var form = new FormPizzaOrder();
             form.ShowDialog();
             LoadData();
         }
@@ -80,7 +69,7 @@ namespace ForgeView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.TakeOrderInWork(new PizzaOrderBindingModel { PizzaOrderId = id });
+                    ApiClient.PostRequest<PizzaOrderBindingModel, bool>("api/PizzaOrder/TakeOrderInWork", new PizzaOrderBindingModel { PizzaOrderId = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -98,7 +87,7 @@ namespace ForgeView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.FinishOrder(new PizzaOrderBindingModel { PizzaOrderId = id });
+                    ApiClient.PostRequest<PizzaOrderBindingModel, bool>("api/PizzaOrder/FinishOrder", new PizzaOrderBindingModel { PizzaOrderId = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -117,7 +106,7 @@ namespace ForgeView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    service.PayOrder(new PizzaOrderBindingModel { PizzaOrderId = id });
+                    ApiClient.PostRequest<PizzaOrderBindingModel, bool>("api/PizzaOrder/PayOrder", new PizzaOrderBindingModel { PizzaOrderId = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -135,13 +124,13 @@ namespace ForgeView
 
         private void storagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormStorages>();
+            var form = new FormStorages();
             form.ShowDialog();
         }
 
         private void putOnStorageItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormPutOnStorage>();
+            var form = new FormPutOnStorage();
             form.ShowDialog();
         }
 
@@ -155,7 +144,7 @@ namespace ForgeView
             {
                 try
                 {
-                    reportService.SaveProductPrice(new ReportBindingModel
+                    ApiClient.PostRequest<ReportBindingModel, bool>("api/Report/SaveProductPrice", new ReportBindingModel
                     {
                         FileName = sfd.FileName
                     });
@@ -172,14 +161,14 @@ namespace ForgeView
 
         private void storageLoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormStorageLoad>();
+            var form = new FormStorageLoad();
             form.ShowDialog();
 
         }
 
         private void customerOrdersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormReport>();
+            var form = new FormReport();
             form.ShowDialog();
         }
     }

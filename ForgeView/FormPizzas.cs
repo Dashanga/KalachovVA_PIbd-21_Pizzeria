@@ -7,29 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
-using Unity;
 
 namespace ForgeView
 {
     public partial class FormPizzas : Form
     {
-        [Dependency] public new IUnityContainer Container { get; set; }
-
-        private readonly IPizzaService service;
-
-        public FormPizzas(IPizzaService service)
+        public FormPizzas()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void LoadData()
         {
             try
             {
-                List<PizzaViewModel> list = service.GetList();
+                List<PizzaViewModel> list = ApiClient.GetRequest<List<PizzaViewModel>>("api/Pizza/GetList/");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -47,7 +42,7 @@ namespace ForgeView
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormPizza>();
+            var form = new FormPizza();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -63,7 +58,7 @@ namespace ForgeView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormCustomer>();
+                var form = new FormPizza();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -83,7 +78,8 @@ namespace ForgeView
                         Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        ApiClient.PostRequest<PizzaBindingModel, bool>("api/Pizza/DelElement",
+                            new PizzaBindingModel { PizzaId = id });
                     }
                     catch (Exception ex)
                     {

@@ -9,27 +9,23 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.Interfaces;
-using Unity;
+using ForgeServiceDAL.ViewModel;
+using Microsoft.Reporting.WinForms;
 
 namespace ForgeView
 {
     public partial class FormStorageLoad : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly IReportService service;
-
-        public FormStorageLoad(IReportService service)
+        public FormStorageLoad()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormStorageLoad_Load(object sender, EventArgs e)
         {
             try
             {
-                var dict = service.GetStocksLoad();
+                var dict = ApiClient.GetRequest<List<StorageLoadViewModel>>("api/Report/GetStocksLoad");
                 if (dict != null)
                 {
                     dataGridView1.Rows.Clear();
@@ -65,7 +61,7 @@ namespace ForgeView
             {
                 try
                 {
-                    service.SaveStocksLoad(new ReportBindingModel
+                    ApiClient.PostRequest<ReportBindingModel, bool>("api/Report/SaveStocksLoad", new ReportBindingModel
                     {
                         FileName = sfd.FileName
                     });

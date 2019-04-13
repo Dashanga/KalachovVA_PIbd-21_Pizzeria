@@ -9,22 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity;
+using ForgeServiceDAL.BindingModel;
 
 namespace ForgeView
 {
     public partial class FormCustomers : Form
     {
-        [Dependency]
-
-        public new IUnityContainer Container { get; set; }
-
-        private readonly ICustomerService service;
-
-        public FormCustomers(ICustomerService service)
+        public FormCustomers()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormCustomers_Load(object sender, EventArgs e)
@@ -36,7 +29,7 @@ namespace ForgeView
         {
             try
             {
-                List<CustomerViewModel> list = service.GetList();
+                List<CustomerViewModel> list = ApiClient.GetRequest<List<CustomerViewModel>>("api/Customer/GetList");
                 if (list != null)
                 {
                     dataGridViewCustomers.DataSource = list;
@@ -54,7 +47,7 @@ namespace ForgeView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormCustomer>();
+            var form = new FormCustomer();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -64,7 +57,7 @@ namespace ForgeView
         {
             if (dataGridViewCustomers.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormCustomer>();
+                var form = new FormCustomer();
                 form.Id = Convert.ToInt32(dataGridViewCustomers.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -81,10 +74,11 @@ namespace ForgeView
                MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     int id =
-                   Convert.ToInt32(dataGridViewCustomers.SelectedRows[0].Cells[0].Value);
+                    Convert.ToInt32(dataGridViewCustomers.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        ApiClient.PostRequest<CutstomerBindingModel, bool>("api/Customer/DelElement",
+                            new CutstomerBindingModel {CustomerId = id});
                     }
                     catch (Exception ex)
                     {

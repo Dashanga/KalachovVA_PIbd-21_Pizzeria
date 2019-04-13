@@ -2,29 +2,24 @@
 using ForgeServiceDAL.BindingModel;
 using System;
 using System.Windows.Forms;
-using Unity;
+using ForgeServiceDAL.ViewModel;
 
 namespace ForgeView
 {
     public partial class FormIngredient : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
         public int Id
         {
             set { id = value; }
         }
 
-        private readonly IIngredientService service;
 
         private int? id;
 
 
-        public FormIngredient(IIngredientService service)
+        public FormIngredient()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormCreateIngredient_Load(object sender, EventArgs e)
@@ -32,7 +27,7 @@ namespace ForgeView
             if (!id.HasValue) return;
             try
             {
-                var view = service.GetElement(id.Value);
+                var view = ApiClient.GetRequest<IngredientViewModel>("api/Ingredient/Get/" + id.Value); ;
                 if (view != null)
                 {
                     labelName.Text = view.IngredientName;
@@ -58,7 +53,7 @@ namespace ForgeView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new IngredientBindingModel
+                    ApiClient.PostRequest<IngredientBindingModel, bool>("api/Ingredient/UpdElement", new IngredientBindingModel
                     {
                         IngredientId = id.Value,
                         IngredientName = textBoxName.Text
@@ -66,7 +61,7 @@ namespace ForgeView
                 }
                 else
                 {
-                    service.AddElement(new IngredientBindingModel
+                    ApiClient.PostRequest<IngredientBindingModel, bool>("api/Ingredient/AddElement", new IngredientBindingModel
                     {
                         IngredientName = textBoxName.Text
                     });

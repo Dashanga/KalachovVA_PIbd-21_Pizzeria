@@ -7,23 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
-using Unity;
 
 namespace ForgeView
 {
     public partial class FormStorages : Form
     {
-        [Dependency]
-
-        public new IUnityContainer Container { get; set; }
-
-        private readonly IStorageService service;
-
-        public FormStorages(IStorageService service)
+        public FormStorages()
         {
-            this.service = service;
             InitializeComponent();
         }
 
@@ -36,7 +29,7 @@ namespace ForgeView
         {
             try
             {
-                List<StorageViewModel> list = service.GetList();
+                List<StorageViewModel> list = ApiClient.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
                 if (list != null)
                 {
                     dataGridView1.DataSource = list;
@@ -54,7 +47,7 @@ namespace ForgeView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormStorage>();
+            var form = new FormStorage();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -65,7 +58,7 @@ namespace ForgeView
         {
             if (dataGridView1.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormStorage>();
+                var form = new FormStorage();
                 form.Id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -85,7 +78,8 @@ namespace ForgeView
                         Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        ApiClient.PostRequest<StorageBindingModel, bool>("api/Customer/DelElement",
+                            new StorageBindingModel { StorageId = id });
                     }
                     catch (Exception ex)
                     {

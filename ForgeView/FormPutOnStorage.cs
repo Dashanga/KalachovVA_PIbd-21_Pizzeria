@@ -10,24 +10,13 @@ using System.Windows.Forms;
 using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
-using Unity;
 
 namespace ForgeView
 {
     public partial class FormPutOnStorage : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly IStorageService serviceS;
-        private readonly IIngredientService serviceC;
-        private readonly IPizzaOrderService serviceM;
-
-
-        public FormPutOnStorage(IStorageService serviceS, IIngredientService serviceC, IPizzaOrderService serviceM)
+        public FormPutOnStorage()
         {
-            this.serviceS = serviceS;
-            this.serviceC = serviceC;
-            this.serviceM = serviceM;
             InitializeComponent();
         }
 
@@ -35,7 +24,7 @@ namespace ForgeView
         {
             try
             {
-                List<IngredientViewModel> listC = serviceC.GetList();
+                List<IngredientViewModel> listC = ApiClient.GetRequest<List<IngredientViewModel>>("api/Ingredient/GetList");
                 if (listC != null)
                 {
                     comboBoxIngredients.DisplayMember = "IngredientName";
@@ -43,7 +32,7 @@ namespace ForgeView
                     comboBoxIngredients.DataSource = listC;
                     comboBoxIngredients.SelectedItem = null;
                 }
-                List<StorageViewModel> listS = serviceS.GetList();
+                List<StorageViewModel> listS = ApiClient.GetRequest<List<StorageViewModel>>("api/Storage/GetList");
                 if (listS != null)
                 {
                     comboBoxStorages.DisplayMember = "StorageName";
@@ -81,7 +70,7 @@ namespace ForgeView
             }
             try
             {
-                serviceM.PutIngredientOnStorage(new StorageIngredientBindingModel
+                ApiClient.PostRequest<StorageIngredientBindingModel, bool>("api/PizzaOrder/PutComponentOnStock", new StorageIngredientBindingModel
                 {
                     IngredientId = Convert.ToInt32(comboBoxIngredients.SelectedValue),
                     StorageId = Convert.ToInt32(comboBoxStorages.SelectedValue),
