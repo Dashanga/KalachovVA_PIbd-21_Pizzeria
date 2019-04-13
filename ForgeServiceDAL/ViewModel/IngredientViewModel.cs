@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ForgeServiceDAL.ViewModel
 {
-    [DataMember]
+    [DataContract]
     public class IngredientViewModel
     {
         [DataMember]
