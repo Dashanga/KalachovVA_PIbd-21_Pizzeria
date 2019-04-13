@@ -9,22 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity;
+using ForgeServiceDAL.BindingModel;
 
 namespace ForgeView
 {
     public partial class FormIngredients : Form
     {
-        [Dependency]
-
-        public new IUnityContainer Container { get; set; }
-
-        private readonly IIngredientService service;
-
-        public FormIngredients(IIngredientService service)
+        public FormIngredients()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormIngredients_Load(object sender, EventArgs e)
@@ -36,7 +29,7 @@ namespace ForgeView
         {
             try
             {
-                List<IngredientViewModel> list = service.GetList();
+                List<IngredientViewModel> list = ApiClient.GetRequest<List<IngredientViewModel>>("api/Ingredient/GetList");
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -53,7 +46,7 @@ namespace ForgeView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormIngredient>();
+            var form = new FormIngredient();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -64,7 +57,7 @@ namespace ForgeView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormIngredient>();
+                var form = new FormIngredient(); 
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -84,7 +77,8 @@ namespace ForgeView
                    Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        service.DelElement(id);
+                        ApiClient.PostRequest<IngredientBindingModel, bool>("api/Ingredient/DelElement",
+                            new IngredientBindingModel { IngredientId = id });
                     }
                     catch (Exception ex)
                     {

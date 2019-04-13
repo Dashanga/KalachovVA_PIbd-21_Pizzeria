@@ -9,21 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.Interfaces;
+using ForgeServiceDAL.ViewModel;
 using Microsoft.Reporting.WinForms;
-using Unity;
 
 namespace ForgeView
 {
     public partial class FormReport : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-        private readonly IReportService service;
-
-        public FormReport(IReportService service)
+        public FormReport()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormReport_Load(object sender, EventArgs e)
@@ -48,13 +43,15 @@ namespace ForgeView
                     " по " +
                     dateTimePickerTo.Value.ToShortDateString());
                 reportViewer.LocalReport.SetParameters(parameter);
-                var dataSource = service.GetClientOrders(new ReportBindingModel
-                {
-                    DateFrom = dateTimePickerFrom.Value,
-                    DateTo = dateTimePickerTo.Value
-                });
+                List<CustomerOrdersModel> response =
+                    ApiClient.PostRequest<ReportBindingModel,
+                        List<CustomerOrdersModel>>("api/Report/GetClientOrders", new ReportBindingModel
+                    {
+                        DateFrom = dateTimePickerFrom.Value,
+                        DateTo = dateTimePickerTo.Value
+                    });
                 ReportDataSource source = new ReportDataSource("DataSetOrders",
-                    dataSource);
+                    response);
                 reportViewer.LocalReport.DataSources.Add(source);
                 reportViewer.RefreshReport();
             }
@@ -81,12 +78,14 @@ namespace ForgeView
             {
                 try
                 {
-                    service.SaveClientOrders(new ReportBindingModel
+                    ApiClient.PostRequest<ReportBindingModel,
+                        bool>("api/Report/SaveClientOrders", new ReportBindingModel
                     {
                         FileName = sfd.FileName,
                         DateFrom = dateTimePickerFrom.Value,
                         DateTo = dateTimePickerTo.Value
                     });
+
                     MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }

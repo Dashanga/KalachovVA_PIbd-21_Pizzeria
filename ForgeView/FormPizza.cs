@@ -10,23 +10,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity;
 
 namespace ForgeView
 {
     public partial class FormPizza : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
-        private readonly IPizzaService service;
         private int? id;
         private List<PizzaIngredientViewModel> productComponents;
 
-        public FormPizza(IPizzaService service)
+        public FormPizza()
         {
             InitializeComponent();
-            this.service = service;
         }
 
         private void FormPizza_Load(object sender, EventArgs e)
@@ -35,7 +30,7 @@ namespace ForgeView
             {
                 try
                 {
-                    PizzaViewModel view = service.GetElement(id.Value);
+                    PizzaViewModel view = ApiClient.GetRequest<PizzaViewModel>("api/Pizza/Get/" + id.Value); ;
                     if (view != null)
                     {
                         maskedTextBoxPizzaName.Text = view.PizzaName;
@@ -80,7 +75,7 @@ namespace ForgeView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormAddIngredient>();
+            var form = new FormAddIngredient();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 if (form.Model != null)
@@ -99,7 +94,7 @@ namespace ForgeView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormAddIngredient>();
+                var form = new FormAddIngredient();
                 form.Model =
                productComponents[dataGridView.SelectedRows[0].Cells[0].RowIndex];
                 if (form.ShowDialog() == DialogResult.OK)
@@ -172,7 +167,7 @@ namespace ForgeView
                 }
                 if (id.HasValue)
                 {
-                    service.UpdElement(new PizzaBindingModel
+                    ApiClient.PostRequest<PizzaBindingModel, bool>("api/Pizza/UpdElement", new PizzaBindingModel
                     {
                         PizzaId = id.Value,
                         PizzaName = maskedTextBoxPizzaName.Text,
@@ -182,7 +177,8 @@ namespace ForgeView
                 }
                 else
                 {
-                    service.AddElement(new PizzaBindingModel {
+                    ApiClient.PostRequest<PizzaBindingModel, bool>("api/Pizza/AddElement", new PizzaBindingModel
+                    {
                         PizzaName = maskedTextBoxPizzaName.Text,
                         Cost = Convert.ToInt32(maskedTextBoxCost.Text),
                         PizzaIngredients = productComponentBM
