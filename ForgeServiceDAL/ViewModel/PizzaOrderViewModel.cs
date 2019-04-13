@@ -6,7 +6,7 @@ namespace ForgeServiceDAL.ViewModel
     public class PizzaOrderViewModel
     {
         [DataMember]
-        int PizzaOrderId { get; set; }
+        public int PizzaOrderId { get; set; }
 
         [DataMember]
         public int CustomerId { get; set; }

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzeriaFormsView", "ForgeV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzeriaServiceImplementDB", "PizzeriaServiceImplementDB\PizzeriaServiceImplementDB.csproj", "{45267720-6E2F-4782-864E-9E3A7ABC5D00}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzeriaWebApi", "PizzeriaWebApi\PizzeriaWebApi.csproj", "{AF406DB0-0C27-4528-97CF-442C8F56F167}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{45267720-6E2F-4782-864E-9E3A7ABC5D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45267720-6E2F-4782-864E-9E3A7ABC5D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45267720-6E2F-4782-864E-9E3A7ABC5D00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF406DB0-0C27-4528-97CF-442C8F56F167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF406DB0-0C27-4528-97CF-442C8F56F167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF406DB0-0C27-4528-97CF-442C8F56F167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF406DB0-0C27-4528-97CF-442C8F56F167}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
