@@ -20,6 +20,20 @@ namespace PizzeriaServiceImplementDB.Implementations
         {
             this.context = context;
         }
+
+        public List<PizzaOrderViewModel> GetFreeOrders()
+        {
+            List<PizzaOrderViewModel> result = context.PizzaOrders
+                .Where(x => x.State == PizzaOrderStatus.Received || x.State ==
+                            PizzaOrderStatus.NotEnoughResources)
+                .Select(rec => new PizzaOrderViewModel
+                {
+                    PizzaId = rec.PizzaId
+                })
+                .ToList();
+            return result;
+        }
+
         public List<PizzaOrderViewModel> GetList()
         {
             List<PizzaOrderViewModel> result = context.PizzaOrders.Select(rec => new PizzaOrderViewModel
