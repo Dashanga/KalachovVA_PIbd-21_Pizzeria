@@ -12,7 +12,7 @@ using System.Data.Entity;
 
 namespace PizzeriaServiceImplementDB.Implementations
 {
-    public class ImplementerServiceDB : IImplemeterService
+    public class ImplementerServiceDB : IImplementerService
     {
         private AbstractDbContext context;
         public ImplementerServiceDB(AbstractDbContext context)
