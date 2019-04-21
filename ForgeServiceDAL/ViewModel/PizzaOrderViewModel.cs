@@ -18,6 +18,12 @@ namespace ForgeServiceDAL.ViewModel
         public int PizzaId { get; set; }
 
         [DataMember]
+        public int? ImplementerId { get; set; }
+
+        [DataMember]
+        public string ImplementerName;
+
+        [DataMember]
         public string PizzaName { get; set; }
 
         [DataMember]

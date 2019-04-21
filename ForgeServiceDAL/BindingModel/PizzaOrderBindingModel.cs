@@ -15,6 +15,9 @@ namespace ForgeServiceDAL.BindingModel
         public int PizzaId { get; set; }
 
         [DataMember]
+        public int? ImplementerId { get; set; }
+
+        [DataMember]
         public int PizzaCount { get; set; }
 
         [DataMember]
