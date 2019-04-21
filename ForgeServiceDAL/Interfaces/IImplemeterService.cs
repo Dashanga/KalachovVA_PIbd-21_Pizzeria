@@ -8,7 +8,7 @@ using ForgeServiceDAL.ViewModel;
 
 namespace ForgeServiceDAL.Interfaces
 {
-    public interface IImplemeterService
+    public interface IImplementerService
     {
         List<ImplementerViewModel> GetList();
         ImplementerViewModel GetElement(int id);
