@@ -14,6 +14,6 @@ namespace ForgeServiceDAL.BindingModel
         public int Id { get; set; }
 
         [DataMember]
-        public int ImplementerFIO { get; set; }
+        public string ImplementerFIO { get; set; }
     }
 }

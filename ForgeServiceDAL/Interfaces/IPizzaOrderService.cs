@@ -8,6 +8,8 @@ namespace ForgeServiceDAL.Interfaces
     {
         List<PizzaOrderViewModel> GetList();
 
+        List<PizzaOrderViewModel> GetFreeOrders();
+
         void CreateOrder(PizzaOrderBindingModel model);
 
         void TakeOrderInWork(PizzaOrderBindingModel model);
