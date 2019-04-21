@@ -14,6 +14,8 @@ namespace ForgeModel
 
         public int PizzaId { get; set; }
 
+        public int? ImplementerId { get; set; }
+
         public int PizzaCount { get; set; }
 
         public decimal TotalCost { get; set; }
@@ -27,5 +29,7 @@ namespace ForgeModel
         public virtual Customer Customer { get; set; }
 
         public virtual Pizza Pizza { get; set; }
+
+        public virtual Implementer Implementer { get; set; }
     }
 }
