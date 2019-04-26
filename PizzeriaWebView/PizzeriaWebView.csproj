@@ -126,12 +126,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AddStorageIngredientController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IngredientsController.cs" />
     <Compile Include="Controllers\PizzaOrderController.cs" />
     <Compile Include="Controllers\PizzaController.cs" />
     <Compile Include="Controllers\PizzasController.cs" />
+    <Compile Include="Controllers\StoragesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -183,6 +185,10 @@
     <Content Include="Views\PizzaOrder\Index.cshtml" />
     <Content Include="Views\PizzaOrder\Create.cshtml" />
     <Content Include="Views\Pizzas\Index.cshtml" />
+    <Content Include="Views\Storages\List.cshtml" />
+    <Content Include="Views\Storages\Create.cshtml" />
+    <Content Include="Views\Storages\Edit.cshtml" />
+    <Content Include="Views\AddStorageIngredient\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
