@@ -16,6 +16,12 @@ namespace ForgeServiceImplementList.Implementations
         {
             source = DataListSingleton.GetInstance();
         }
+
+        public List<PizzaOrderViewModel> GetFreeOrders()
+        {
+            return null;
+        }
+
         public List<PizzaOrderViewModel> GetList()
         {
             List<PizzaOrderViewModel> result = source.PizzaOrders

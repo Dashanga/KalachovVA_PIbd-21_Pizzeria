@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
+using System.Web.WebSockets;
 using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
@@ -15,12 +17,12 @@ namespace PizzeriaWebApi.Controllers
     {
         private readonly IPizzaOrderService _service;
 
-        private readonly IImplementerService _implementerService;
+        private readonly IImplementerService _serviceImplementer;
 
-        public PizzaOrderController(IPizzaOrderService service, IImplementerService implementerService)
+        public PizzaOrderController(IPizzaOrderService service, IImplementerService serviceImplementer)
         {
             _service = service;
-            _implementerService = implementerService;
+            _serviceImplementer = serviceImplementer;
         }
         [HttpGet]
         public IHttpActionResult GetList()
@@ -56,12 +58,13 @@ namespace PizzeriaWebApi.Controllers
             List<PizzaOrderViewModel> orders = _service.GetFreeOrders();
             foreach (var order in orders)
             {
-                ImplementerViewModel impl = _implementerService.GetFreeWorker();
+                ImplementerViewModel impl = _serviceImplementer.GetFreeWorker();
                 if (impl == null)
                 {
                     throw new Exception("Нет сотрудников");
                 }
-                new WorkImplementer(_service, _implementerService, impl.Id, order.PizzaOrderId);
+
+                new WorkImplementer(_service, _serviceImplementer, impl.Id, order.PizzaOrderId);
             }
         }
 
