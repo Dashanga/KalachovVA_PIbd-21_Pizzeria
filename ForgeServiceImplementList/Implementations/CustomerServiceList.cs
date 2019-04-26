@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ForgeModel;
 using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.ViewModel;
@@ -19,49 +20,39 @@ namespace ForgeServiceImplementList.Implementations
 
         public List<CustomerViewModel> GetList()
         {
-            List<CustomerViewModel> result = new List<CustomerViewModel>();
-            for (int i = 0; i < source.Clients.Count; ++i)
+            List<CustomerViewModel> result = source.Customers.Select(rec => new CustomerViewModel
             {
-                result.Add(new CustomerViewModel
-                {
-                    CustomerId = source.Clients[i].CustomerId,
-                    FullName = source.Clients[i].FullName
-                });
-            }
-        return result;
+                CustomerId = rec.CustomerId,
+                FullName = rec.FullName
+            }).ToList();
+            return result;
         }
 
-        public CustomerViewModel GetElement(int id)
+        public CustomerViewModel GetElement(int CustomerId)
         {
-            for (int i = 0; i < source.Clients.Count; ++i)
+            Customer el = source.Customers.FirstOrDefault(rec => rec.CustomerId == CustomerId);
+            if (el != null)
             {
-                if (source.Clients[i].CustomerId == id)
+                return new CustomerViewModel()
                 {
-                    return new CustomerViewModel
-                    {
-                        CustomerId = source.Clients[i].CustomerId,
-                        FullName = source.Clients[i].FullName
-                    };
-                }
+                    CustomerId = el.CustomerId,
+                    FullName = el.FullName
+                };
             }
             throw new Exception("Элемент не найден");
         }
 
         public void AddElement(CutstomerBindingModel model)
         {
-            int maxId = 0;
-            for (int i = 0; i < source.Clients.Count; ++i)
+            Customer element = source.Customers.FirstOrDefault(rec => rec.FullName ==
+                                                                  model.FullName);
+            if (element != null)
             {
-                if (source.Clients[i].CustomerId > maxId)
-                {
-                    maxId = source.Clients[i].CustomerId;
-                }
-                if (source.Clients[i].FullName == model.FullName)
-                {
-                    throw new Exception("Уже есть клиент с таким ФИО");
-                }
+                throw new Exception("Уже есть клиент с таким ФИО");
             }
-            source.Clients.Add(new Customer {
+            int maxId = source.Customers.Count > 0 ? source.Customers.Max(rec => rec.CustomerId) : 0;
+            source.Customers.Add(new Customer
+            {
                 CustomerId = maxId + 1,
                 FullName = model.FullName
             });
@@ -69,37 +60,31 @@ namespace ForgeServiceImplementList.Implementations
 
         public void UpdElement(CutstomerBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.Clients.Count; ++i)
+            Customer element = source.Customers.FirstOrDefault(rec => rec.FullName ==
+                                                                  model.FullName && rec.CustomerId != model.CustomerId);
+            if (element != null)
             {
-                if (source.Clients[i].CustomerId == model.CustomerId)
-                {
-                    index = i;
-                }
-                if (source.Clients[i].FullName == model.FullName &&
-                source.Clients[i].CustomerId != model.CustomerId)
-                {
-                    throw new Exception("Уже есть клиент с таким ФИО");
-                }
+                throw new Exception("Уже есть клиент с таким ФИО");
             }
-            if (index == -1)
+            element = source.Customers.FirstOrDefault(rec => rec.CustomerId == model.CustomerId);
+            if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            source.Clients[index].FullName = model.FullName;
+            element.FullName = model.FullName;
         }
 
-        public void DelElement(int id)
+        public void DelElement(int CustomerId)
         {
-            for (int i = 0; i < source.Clients.Count; ++i)
-        {
-                if (source.Clients[i].CustomerId == id)
-                {
-                    source.Clients.RemoveAt(i);
-                    return;
-                }
+            Customer element = source.Customers.FirstOrDefault(rec => rec.CustomerId == CustomerId);
+            if (element != null)
+            {
+                source.Customers.Remove(element);
             }
-            throw new Exception("Элемент не найден");
+            else
+            {
+                throw new Exception("Элемент не найден");
+            }
         }
     }
 }

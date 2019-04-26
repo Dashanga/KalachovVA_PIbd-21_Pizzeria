@@ -46,6 +46,7 @@
     <Compile Include="Implementations\IngredientServiceList.cs" />
     <Compile Include="Implementations\PizzaOrderServiceList.cs" />
     <Compile Include="Implementations\PizzaServiceList.cs" />
+    <Compile Include="Implementations\StorageServiceList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

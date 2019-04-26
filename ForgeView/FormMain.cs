@@ -59,7 +59,7 @@ namespace ForgeView
 
         private void pizzasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormPizza>();
+            var form = Container.Resolve<FormPizzas>();
             form.ShowDialog();
         }
 
@@ -128,6 +128,18 @@ namespace ForgeView
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void storagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
+            form.ShowDialog();
+        }
+
+        private void putOnStorageItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormPutOnStorage>();
+            form.ShowDialog();
         }
     }
 }

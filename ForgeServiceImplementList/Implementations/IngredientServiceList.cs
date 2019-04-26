@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ForgeModel;
 using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.ViewModel;
@@ -18,49 +19,38 @@ namespace ForgeServiceImplementList.Implementations
 
         public List<IngredientViewModel> GetList()
         {
-            var result = new List<IngredientViewModel>();
-            for (int i = 0; i < source.Components.Count; ++i)
+            List<IngredientViewModel> result = source.Ingredients.Select(rec => new IngredientViewModel
             {
-                result.Add(new IngredientViewModel
-                {
-                    IngredientId = source.Components[i].IngredientId,
-                    IngredientName = source.Components[i].IngredientName
-                });
-            }
+                IngredientId = rec.IngredientId,
+                IngredientName = rec.IngredientName
+            }).ToList();
             return result;
         }
 
-        public IngredientViewModel GetElement(int id)
+        public IngredientViewModel GetElement(int IngredientId)
         {
-            for (int i = 0; i < source.Components.Count; ++i)
+            Ingredient el = source.Ingredients.FirstOrDefault(rec => rec.IngredientId == IngredientId);
+            if (el != null)
             {
-                if (source.Components[i].IngredientId == id)
+                return new IngredientViewModel()
                 {
-                    return new IngredientViewModel
-                    {
-                        IngredientId = source.Components[i].IngredientId,
-                        IngredientName = source.Components[i].IngredientName
-                    };
-                }
+                    IngredientId = el.IngredientId,
+                    IngredientName = el.IngredientName
+                };
             }
             throw new Exception("Элемент не найден");
         }
 
         public void AddElement(IngredientBindingModel model)
         {
-            int maxId = 0;
-            for (int i = 0; i < source.Components.Count; ++i)
+            Ingredient element = source.Ingredients.FirstOrDefault(rec => rec.IngredientName ==
+                                                                  model.IngredientName);
+            if (element != null)
             {
-                if (source.Components[i].IngredientId > maxId)
-                {
-                    maxId = source.Components[i].IngredientId;
-                }
-                if (source.Components[i].IngredientName == model.IngredientName)
-                {
-                    throw new Exception("Уже есть ингредиент с таким названием");
-                }
+                throw new Exception("Уже есть клиент с таким ФИО");
             }
-            source.Components.Add(new Ingredient
+            int maxId = source.Ingredients.Count > 0 ? source.Ingredients.Max(rec => rec.IngredientId) : 0;
+            source.Ingredients.Add(new Ingredient
             {
                 IngredientId = maxId + 1,
                 IngredientName = model.IngredientName
@@ -69,37 +59,31 @@ namespace ForgeServiceImplementList.Implementations
 
         public void UpdElement(IngredientBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.Components.Count; ++i)
+            Ingredient element = source.Ingredients.FirstOrDefault(rec => rec.IngredientName ==
+                                                                  model.IngredientName && rec.IngredientId != model.IngredientId);
+            if (element != null)
             {
-                if (source.Components[i].IngredientId == model.IngredientId)
-                {
-                    index = i;
-                }
-                if (source.Components[i].IngredientName == model.IngredientName &&
-                source.Components[i].IngredientId != model.IngredientId)
-                {
-                    throw new Exception("Уже есть мнгредиент с такими названием");
-                }
+                throw new Exception("Уже есть клиент с таким ФИО");
             }
-            if (index == -1)
+            element = source.Ingredients.FirstOrDefault(rec => rec.IngredientId == model.IngredientId);
+            if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            source.Components[index].IngredientName = model.IngredientName;
+            element.IngredientName = model.IngredientName;
         }
 
-        public void DelElement(int id)
+        public void DelElement(int IngredientId)
         {
-            for (int i = 0; i < source.Components.Count; ++i)
+            Ingredient element = source.Ingredients.FirstOrDefault(rec => rec.IngredientId == IngredientId);
+            if (element != null)
             {
-                if (source.Components[i].IngredientId == id)
-                {
-                    source.Components.RemoveAt(i);
-                    return;
-                }
+                source.Ingredients.Remove(element);
             }
-            throw new Exception("Элемент не найден");
+            else
+            {
+                throw new Exception("Элемент не найден");
+            }
         }
     }
 }

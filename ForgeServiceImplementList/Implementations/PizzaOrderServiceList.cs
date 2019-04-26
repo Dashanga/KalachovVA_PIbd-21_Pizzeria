@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ForgeModel;
 using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.ViewModel;
@@ -17,54 +18,30 @@ namespace ForgeServiceImplementList.Implementations
         }
         public List<PizzaOrderViewModel> GetList()
         {
-            List<PizzaOrderViewModel> result = new List<PizzaOrderViewModel>();
-            for (int i = 0; i < source.Orders.Count; ++i)
-            {
-                string clientFIO = string.Empty;
-                for (int j = 0; j < source.Clients.Count; ++j)
+            List<PizzaOrderViewModel> result = source.PizzaOrders
+                .Select(rec => new PizzaOrderViewModel
                 {
-                    if (source.Clients[j].CustomerId == source.Orders[i].CustomerId)
-                    {
-                        clientFIO = source.Clients[j].FullName;
-                        break;
-                    }
-                }
-                string productName = string.Empty;
-                for (int j = 0; j < source.Products.Count; ++j)
-                {
-                    if (source.Products[j].PizzaId == source.Orders[i].PizzaId)
-                    {
-                        productName = source.Products[j].PizzaName;
-                        break;
-                    }
-                }
-                result.Add(new PizzaOrderViewModel
-                {
-                    PizzaOrderId = source.Orders[i].PizzaOrderId,
-                    CustomerId = source.Orders[i].CustomerId,
-                    FullName = clientFIO,
-                    PizzaId = source.Orders[i].PizzaId,
-                    PizzaName = productName,
-                    PizzaCount = source.Orders[i].PizzaCount,
-                    TotalCost = source.Orders[i].TotalCost,
-                    CreationDate = source.Orders[i].CreationDate.ToLongDateString(),
-                    ImplementationDate = source.Orders[i].ImplementationDate?.ToLongDateString(),
-                    State = source.Orders[i].State.ToString()
-                });
-            }
+                    PizzaOrderId = rec.PizzaOrderId,
+                    CustomerId = rec.CustomerId,
+                    PizzaId = rec.PizzaId,
+                    CreationDate = rec.CreationDate.ToLongDateString(),
+                    ImplementationDate = rec.ImplementationDate?.ToLongDateString(),
+                    State = rec.State.ToString(),
+                    PizzaCount = rec.PizzaCount,
+                    TotalCost = rec.TotalCost,
+                    FullName = source.Customers.FirstOrDefault(recC => recC.CustomerId ==
+                                                                      rec.CustomerId)?.FullName,
+                    PizzaName = source.Pizzas.FirstOrDefault(recP => recP.PizzaId ==
+                                                                         rec.PizzaId)?.PizzaName,
+                })
+                .ToList();
             return result;
         }
+
         public void CreateOrder(PizzaOrderBindingModel model)
         {
-            int maxId = 0;
-            for (int i = 0; i < source.Orders.Count; ++i)
-            {
-                if (source.Orders[i].PizzaOrderId > maxId)
-                {
-                    maxId = source.Clients[i].CustomerId;
-                }
-            }
-            source.Orders.Add(new PizzaOrder
+            int maxId = source.PizzaOrders.Count > 0 ? source.PizzaOrders.Max(rec => rec.PizzaOrderId) : 0;
+            source.PizzaOrders.Add(new PizzaOrder
             {
                 PizzaOrderId = maxId + 1,
                 CustomerId = model.CustomerId,
@@ -75,69 +52,109 @@ namespace ForgeServiceImplementList.Implementations
                 State = PizzaOrderStatus.Received
             });
         }
+
         public void TakeOrderInWork(PizzaOrderBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.Orders.Count; ++i)
-            {
-                if (source.Orders[i].PizzaOrderId == model.PizzaOrderId)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            if (index == -1)
+            PizzaOrder element = source.PizzaOrders.FirstOrDefault(rec => rec.PizzaOrderId == model.PizzaOrderId);
+            if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.Orders[index].State != PizzaOrderStatus.Received)
+            if (element.State != PizzaOrderStatus.Received)
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-            source.Orders[index].ImplementationDate = DateTime.Now;
-            source.Orders[index].State = PizzaOrderStatus.Processing;
-        }
-        public void FinishOrder(PizzaOrderBindingModel model)
-        {
-            int index = -1;
-            for (int i = 0; i < source.Orders.Count; ++i)
+            // смотрим по количеству компонентов на складах
+            var productComponents = source.PizzaIngredients.Where(rec => rec.PizzaId
+                                                                          == element.PizzaId);
+            foreach (var productComponent in productComponents)
             {
-                if (source.Clients[i].CustomerId == model.PizzaOrderId)
+                int countOnStocks = source.StorageIngredients
+                    .Where(rec => rec.StorageIngredientId ==
+                                  productComponent.IngredientId)
+                    .Sum(rec => rec.StorageIngredientCount);
+                if (countOnStocks < productComponent.PizzaIngredientCount * element.PizzaCount)
                 {
-                    index = i;
-                    break;
+                    var componentName = source.Ingredients.FirstOrDefault(rec => rec.IngredientId ==
+                                                                                productComponent.IngredientId);
+                    throw new Exception("Не достаточно компонента " +
+                                        componentName?.IngredientName + " требуется " + (productComponent.PizzaIngredientCount * element.PizzaCount) +
+                                        ", в наличии " + countOnStocks);
                 }
             }
-            if (index == -1)
+            // списываем
+            foreach (var productComponent in productComponents)
+            {
+                int countOnStocks = productComponent.PizzaIngredientCount * element.PizzaCount;
+                var stockComponents = source.StorageIngredients.Where(rec => rec.StorageIngredientId
+                                                                          == productComponent.IngredientId);
+                foreach (var stockComponent in stockComponents)
+                {
+                    // компонентов на одном слкаде может не хватать
+                    if (stockComponent.StorageIngredientCount >= countOnStocks)
+                    {
+                        stockComponent.StorageIngredientCount -= countOnStocks;
+                        break;
+                    }
+                    else
+                    {
+                        countOnStocks -= stockComponent.StorageIngredientCount;
+                        stockComponent.StorageIngredientCount = 0;
+                    }
+                }
+            }
+            element.ImplementationDate = DateTime.Now;
+            element.State = PizzaOrderStatus.Processing;
+        }
+
+        public void FinishOrder(PizzaOrderBindingModel model)
+        {
+            PizzaOrder element = source.PizzaOrders.FirstOrDefault(rec => rec.PizzaOrderId == model.PizzaOrderId);
+            if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.Orders[index].State != PizzaOrderStatus.Processing)
+            if (element.State != PizzaOrderStatus.Processing)
             {
                 throw new Exception("Заказ не в статусе \"Выполняется\"");
             }
-            source.Orders[index].State = PizzaOrderStatus.Ready;
+            element.State = PizzaOrderStatus.Ready;
         }
+
         public void PayOrder(PizzaOrderBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.Orders.Count; ++i)
-            {
-                if (source.Clients[i].CustomerId == model.PizzaOrderId)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            if (index == -1)
+            PizzaOrder element = source.PizzaOrders.FirstOrDefault(rec => rec.PizzaOrderId == model.PizzaOrderId);
+            if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.Orders[index].State != PizzaOrderStatus.Ready)
+            if (element.State != PizzaOrderStatus.Ready)
             {
                 throw new Exception("Заказ не в статусе \"Готов\"");
             }
-            source.Orders[index].State = PizzaOrderStatus.Paid;
+            element.State = PizzaOrderStatus.Paid;
+        }
+
+        public void PutIngredientOnStorage(StorageIngredientBindingModel model)
+        {
+            StorageIngredient element = source.StorageIngredients.FirstOrDefault(rec =>
+                rec.StorageId == model.StorageId && rec.IngredientId == model.IngredientId);
+            if (element != null)
+            {
+                element.StorageIngredientCount += model.StorageIngredientCount;
+            }
+            else
+            {
+                int maxId = source.StorageIngredients.Count > 0 ?
+                    source.StorageIngredients.Max(rec => rec.StorageIngredientId) : 0;
+                source.StorageIngredients.Add(new StorageIngredient
+                {
+                    StorageIngredientId = ++maxId,
+                    StorageId = model.StorageId,
+                    IngredientId = model.IngredientId,
+                    StorageIngredientCount = model.StorageIngredientCount
+                });
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ namespace ForgeView
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(container.Resolve<FormMain>());
         }
+
         public static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
@@ -31,7 +32,9 @@ namespace ForgeView
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IPizzaOrderService, PizzaOrderServiceList>(new
            HierarchicalLifetimeManager());
-        return currentContainer;
+            currentContainer.RegisterType<IStorageService, StorageServiceList>(new
+                HierarchicalLifetimeManager());
+            return currentContainer;
         }
     }
 }
