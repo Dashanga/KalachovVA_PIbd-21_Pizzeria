@@ -14,9 +14,6 @@ namespace ForgeServiceDAL.ViewModel
         public int Id { get; set; }
 
         [DataMember]
-        public string ImplementerFIO;
-
-        [DataMember]
-        public List<PizzaOrderViewModel> PizzaOrders { get; set; }
+        public string ImplementerFIO { get; set; }
     }
 }

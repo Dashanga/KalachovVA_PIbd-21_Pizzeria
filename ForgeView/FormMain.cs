@@ -22,7 +22,7 @@ namespace ForgeView
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[0].Visible = true;
                     dataGridView.Columns[1].Visible = false;
                     dataGridView.Columns[3].Visible = false;
                     dataGridView.Columns[5].Visible = false;
@@ -170,6 +170,28 @@ namespace ForgeView
         {
             var form = new FormReport();
             form.ShowDialog();
+        }
+
+        private void implementersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormImplementers();
+            form.ShowDialog();
+        }
+
+        private void startWorkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ApiClient.PostRequest<int?, bool>("api/PizzaOrder/StartWork",
+                    null);
+                MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

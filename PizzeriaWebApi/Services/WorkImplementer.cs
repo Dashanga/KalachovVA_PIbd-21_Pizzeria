@@ -43,6 +43,7 @@ namespace PizzeriaWebApi.Services
         {
             try
             {
+
                 // забиваем мастерскую
                 _sem.WaitOne();
                 // Типа выполняем

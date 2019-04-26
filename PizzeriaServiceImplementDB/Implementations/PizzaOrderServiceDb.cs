@@ -28,7 +28,7 @@ namespace PizzeriaServiceImplementDB.Implementations
                             PizzaOrderStatus.NotEnoughResources)
                 .Select(rec => new PizzaOrderViewModel
                 {
-                    PizzaId = rec.PizzaId
+                    PizzaOrderId = rec.PizzaOrderId
                 })
                 .ToList();
             return result;

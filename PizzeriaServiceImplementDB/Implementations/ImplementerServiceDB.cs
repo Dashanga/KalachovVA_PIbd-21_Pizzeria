@@ -98,7 +98,7 @@ namespace PizzeriaServiceImplementDB.Implementations
             var ordersWorker = context.Implementers
                 .Select(x => new
                 {
-                    ImplId = x.Id,
+                    Id= x.Id,
                     Count = context.PizzaOrders.Where(o => o.State == PizzaOrderStatus.Processing
                                                       && o.ImplementerId == x.Id).Count()
                 })
@@ -106,11 +106,10 @@ namespace PizzeriaServiceImplementDB.Implementations
                 .FirstOrDefault();
             if (ordersWorker != null)
             {
-                return GetElement(ordersWorker.ImplId);
+                return GetElement(ordersWorker.Id);
             }
             return null;
         }
     }
 
-}
 }
