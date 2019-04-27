@@ -193,5 +193,11 @@ namespace ForgeView
                     MessageBoxIcon.Error);
             }
         }
+
+        private void mailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormMails();
+            form.ShowDialog();
+        }
     }
 }

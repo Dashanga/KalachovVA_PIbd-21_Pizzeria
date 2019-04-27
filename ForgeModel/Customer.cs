@@ -11,7 +11,12 @@ namespace ForgeModel
         [Required]
         public string FullName { get; set; }
 
+        public string Mail { get; set; }
+
         [ForeignKey("CustomerId")]
         public virtual List<PizzaOrder> PizzaOrders { get; set; }
+
+        [ForeignKey("CustomerId")]
+        public virtual List<MessageInfo> MessageInfos { get; set; }
     }
 }

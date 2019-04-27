@@ -10,5 +10,8 @@ namespace ForgeServiceDAL.BindingModel
 
         [DataMember]
         public string FullName { get; set; }
+
+        [DataMember]
+        public string Mail { get; set; }
     }
 }
