@@ -51,6 +51,7 @@
     <Compile Include="Customer.cs" />
     <Compile Include="Implementer.cs" />
     <Compile Include="Ingredient.cs" />
+    <Compile Include="MessageInfo.cs" />
     <Compile Include="PizzaOrder.cs" />
     <Compile Include="PizzaOrderStatus.cs" />
     <Compile Include="Pizza.cs" />

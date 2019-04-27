@@ -2,6 +2,7 @@
 using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
 using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace ForgeView
@@ -28,6 +29,13 @@ namespace ForgeView
                     if (view != null)
                     {
                         maskedTextBoxInitials.Text = view.FullName;
+                        mailTextBox.Text = view.Mail;
+                        dataGridView1.DataSource = view.Messages;
+                        dataGridView1.Columns[0].Visible = false;
+                        dataGridView1.Columns[1].Visible = false;
+                        dataGridView1.Columns[4].AutoSizeMode =
+                            DataGridViewAutoSizeColumnMode.Fill;
+
                     }
                 }
                 catch (Exception ex)
@@ -43,36 +51,44 @@ namespace ForgeView
             if (string.IsNullOrEmpty(maskedTextBoxInitials.Text))
             {
                 MessageBox.Show("Заполните ФИО", "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
+                    MessageBoxIcon.Error);
                 return;
             }
-            try
+            string fio = maskedTextBoxInitials.Text;
+            string mail = mailTextBox.Text;
+            if (!string.IsNullOrEmpty(mail))
             {
-                if (id.HasValue)
+                if (Regex.IsMatch(mail, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-
+!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9az][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$"))
                 {
-                    ApiClient.PostRequest<CutstomerBindingModel, bool>("api/Customer/UpdElement", new CutstomerBindingModel
-                    {
-                        CustomerId = id.Value,
-                        FullName = maskedTextBoxInitials.Text
-                    });
+                    MessageBox.Show("Неверный формат для электронной почты", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                else
-                {
-                    ApiClient.PostRequest<CutstomerBindingModel, bool>("api/Customer/AddElement", new CutstomerBindingModel
-                    {
-                        FullName = maskedTextBoxInitials.Text
-                    });
-                }
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
-               MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DialogResult = DialogResult.OK;
-                Close();
             }
-            catch (Exception ex)
+            if (id.HasValue)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
+                ApiClient.PostRequest<CutstomerBindingModel,
+                    bool>("api/Customer/UpdElement", new CutstomerBindingModel
+                    {
+                    CustomerId = id.Value,
+                    FullName = fio,
+                    Mail = mail
+                });
             }
+            else
+            {
+                ApiClient.PostRequest<CutstomerBindingModel,
+                    bool>("api/Customer/AddElement", new CutstomerBindingModel
+                    {
+                    FullName = fio,
+                    Mail = mail
+                });
+            }
+            MessageBox.Show("Сохранение прошло успешно", "Сообщение",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

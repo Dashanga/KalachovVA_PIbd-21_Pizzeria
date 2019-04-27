@@ -25,7 +25,8 @@ namespace PizzeriaServiceImplementDB.Implementations
                     CustomerViewModel
             {
                 CustomerId = rec.CustomerId,
-                FullName = rec.FullName
+                FullName = rec.FullName,
+                Mail = rec.Mail
             })
                 .ToList();
             return result;
@@ -38,7 +39,19 @@ namespace PizzeriaServiceImplementDB.Implementations
                 return new CustomerViewModel
                 {
                     CustomerId = element.CustomerId,
-                    FullName = element.FullName
+                    FullName = element.FullName,
+                    Mail = element.Mail,
+                    Messages = context.MessageInfos
+                        .Where(recM => recM.CustomerId == element.CustomerId)
+                        .Select(recM => new MessageInfoViewModel
+                        {
+                            MessageId = recM.MessageId,
+                            DateDelivery = recM.DateDelivery,
+                            Subject = recM.Subject,
+                            Body = recM.Body
+                        })
+                        .ToList()
+
                 };
             }
             throw new Exception("Элемент не найден");
@@ -53,7 +66,8 @@ namespace PizzeriaServiceImplementDB.Implementations
             }
             context.Customers.Add(new Customer
             {
-                FullName = model.FullName
+                FullName = model.FullName,
+                Mail = model.Mail
             });
             context.SaveChanges();
         }
@@ -71,6 +85,7 @@ namespace PizzeriaServiceImplementDB.Implementations
                 throw new Exception("Элемент не найден");
             }
             element.FullName = model.FullName;
+            element.Mail = model.Mail;
             context.SaveChanges();
         }
         public void DelElement(int id)

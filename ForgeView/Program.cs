@@ -15,6 +15,7 @@ namespace ForgeView
         static void Main()
         {
             ApiClient.Connect();
+            MailClient.Connect();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormMain());

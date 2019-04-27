@@ -8,7 +8,10 @@ using ForgeModel;
 using ForgeServiceDAL.BindingModel;
 using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
+using System.Configuration;
 using System.Data.Entity;
+using System.Net;
+using System.Net.Mail;
 
 
 namespace PizzeriaServiceImplementDB.Implementations
@@ -62,7 +65,7 @@ namespace PizzeriaServiceImplementDB.Implementations
         }
         public void CreateOrder(PizzaOrderBindingModel model)
         {
-            context.PizzaOrders.Add(new PizzaOrder
+            var order = new PizzaOrder
             {
                 CustomerId = model.CustomerId,
                 PizzaId = model.PizzaId,
@@ -70,8 +73,13 @@ namespace PizzeriaServiceImplementDB.Implementations
                 PizzaCount = model.PizzaCount,
                 TotalCost = model.TotalCost,
                 State = PizzaOrderStatus.Received
-            });
+            };
+            context.PizzaOrders.Add(order);
             context.SaveChanges();
+
+            var customer = context.Customers.FirstOrDefault(x => x.CustomerId == model.CustomerId);
+            SendEmail(customer.Mail, "Оповещение по заказам", string.Format("Заказ №{0} от {1}создан успешно",
+                order.PizzaOrderId, order.CreationDate.ToShortDateString()));
         }
         public void TakeOrderInWork(PizzaOrderBindingModel model)
         {
@@ -121,6 +129,10 @@ namespace PizzeriaServiceImplementDB.Implementations
                     element.ImplementationDate = DateTime.Now;
                     element.State = PizzaOrderStatus.Processing;
                     context.SaveChanges();
+                    SendEmail(element.Customer.Mail, "Оповещение по заказам",
+                        string.Format("Заказ №{0} от {1} передеан в работу", element.PizzaOrderId,
+                            element.CreationDate.ToShortDateString()));
+
                     transaction.Commit();
                 }
                 catch (Exception)
@@ -143,7 +155,9 @@ namespace PizzeriaServiceImplementDB.Implementations
             }
             element.State = PizzaOrderStatus.Ready;
             context.SaveChanges();
+            SendEmail(element.Customer.Mail, "Оповещение по заказам", string.Format("Заказ №{ 0} от { 1}передан на оплату", element.PizzaOrderId, element.CreationDate.ToShortDateString()));
         }
+
         public void PayOrder(PizzaOrderBindingModel model)
         {
             PizzaOrder element = context.PizzaOrders.FirstOrDefault(rec => rec.PizzaOrderId == model.PizzaOrderId);
@@ -157,6 +171,8 @@ namespace PizzeriaServiceImplementDB.Implementations
             }
             element.State = PizzaOrderStatus.Paid;
             context.SaveChanges();
+            SendEmail(element.Customer.Mail, "Оповещение по заказам", string.Format("Заказ №{ 0} от { 1} оплачен успешно", element.PizzaOrderId, element.CreationDate.ToShortDateString()));
+
         }
         public void PutIngredientOnStorage(StorageIngredientBindingModel model)
         {
@@ -176,6 +192,39 @@ namespace PizzeriaServiceImplementDB.Implementations
                 });
             }
             context.SaveChanges();
+        }
+
+        private void SendEmail(string mailAddress, string subject, string text)
+        {
+            MailMessage objMailMessage = new MailMessage();
+            SmtpClient objSmtpClient = null;
+            try
+            {
+                objMailMessage.From = new
+                    MailAddress(ConfigurationManager.AppSettings["MailLogin"]);
+                objMailMessage.To.Add(new MailAddress(mailAddress));
+                objMailMessage.Subject = subject;
+                objMailMessage.Body = text;
+                objMailMessage.SubjectEncoding = System.Text.Encoding.UTF8;
+                objMailMessage.BodyEncoding = System.Text.Encoding.UTF8;
+                objSmtpClient = new SmtpClient("smtp.gmail.com", 587);
+                objSmtpClient.UseDefaultCredentials = false;
+                objSmtpClient.EnableSsl = true;
+                objSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                objSmtpClient.Credentials = new
+                    NetworkCredential(ConfigurationManager.AppSettings["MailLogin"],
+                        ConfigurationManager.AppSettings["MailPassword"]);
+                objSmtpClient.Send(objMailMessage);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                objMailMessage = null;
+                objSmtpClient = null;
+            }
         }
     }
 }
