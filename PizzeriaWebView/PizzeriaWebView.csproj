@@ -216,6 +216,10 @@
       <Project>{4827f26d-823f-4fff-8c57-260e1d5c1a09}</Project>
       <Name>PizzeriaServiceImplementList</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PizzeriaServiceImplementDB\PizzeriaServiceImplementDB.csproj">
+      <Project>{45267720-6e2f-4782-864e-9e3a7abc5d00}</Project>
+      <Name>PizzeriaServiceImplementDB</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

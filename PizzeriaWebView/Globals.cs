@@ -5,15 +5,18 @@ using System.Web;
 using ForgeServiceDAL.Interfaces;
 using ForgeServiceDAL.ViewModel;
 using ForgeServiceImplementList.Implementations;
+using PizzeriaServiceImplementDB;
+using PizzeriaServiceImplementDB.Implementations;
 
 namespace PizzeriaWebView
 {
     public static class Globals
     {
-        public static ICustomerService CustomerService { get; } = new CustomerServiceList();
-        public static IIngredientService IngredientService { get; } = new IngredientServiceList();
-        public static IPizzaService PizzaService { get; } = new PizzaServiceList();
-        public static IPizzaOrderService PizzaOrderService { get; } = new PizzaOrderServiceList();
-        public static IStorageService StorageService { get; } = new StorageServiceList();
+        public static AbstractDbContext DbContext { get; } = new AbstractDbContext();
+        public static ICustomerService CustomerService { get; } = new CustomerServiceDb(DbContext);
+        public static IIngredientService IngredientService { get; } = new IngredientServiceDb(DbContext);
+        public static IPizzaService PizzaService { get; } = new PizzaServiceDb(DbContext);
+        public static IPizzaOrderService PizzaOrderService { get; } = new PizzaOrderServiceDb(DbContext);
+        public static IStorageService StorageService { get; } = new StorageServiceDb(DbContext);
     }
 }
