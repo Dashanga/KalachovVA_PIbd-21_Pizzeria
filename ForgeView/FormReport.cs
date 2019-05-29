@@ -26,11 +26,6 @@ namespace ForgeView
             this.service = service;
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void FormReport_Load(object sender, EventArgs e)
         {
 

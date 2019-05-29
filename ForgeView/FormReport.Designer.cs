@@ -103,7 +103,6 @@
             this.dateTimePickerFrom.Name = "dateTimePickerFrom";
             this.dateTimePickerFrom.Size = new System.Drawing.Size(200, 22);
             this.dateTimePickerFrom.TabIndex = 0;
-            this.dateTimePickerFrom.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // reportViewer
             // 
