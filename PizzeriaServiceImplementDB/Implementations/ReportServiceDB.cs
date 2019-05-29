@@ -13,8 +13,6 @@ using iTextSharp.text.pdf;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Word;
 using System.Data.Entity;
-using System.Data.Entity.SqlServer;
-using ForgeModel;
 
 namespace PizzeriaServiceImplementDB.Implementations
 {
